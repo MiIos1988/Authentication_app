@@ -1,10 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <div>
-      <h1 className='font-bold underline'>Tailwind css</h1>
+      <HomePage />
     </div>
   );
 }
