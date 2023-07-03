@@ -6,21 +6,21 @@ const HeaderHomePageComponent = () => {
   return (
     <div className="pt-10">
       <div className="container mx-auto mt-10">
-        <nav className="mx-48 flex justify-between ">
+        <nav className="mx-48 sm:mx-0 flex justify-between ">
           <img src={logo} alt="Logo" />
-          <div>
-            <ul className="flex list-none gap-x-3 uppercase">
+            <ul className="flex self-start list-none gap-x-3 uppercase ">
               <li>Početna</li>
               <li>O nama</li>
               <li>Usluge</li>
               <li>Klijenti</li>
               <li>Kontakt</li>
               <li className="flex">
-                <img src={en} alt="" />
-                En
+                <span className="flex items-center" >
+                  <img src={en} alt="" className="shrink-0" />
+                  <span className="ml-1">En</span> 
+                </span>
               </li>
             </ul>
-          </div>
         </nav>
       </div>
     </div>
