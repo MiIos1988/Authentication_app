@@ -5,7 +5,7 @@ import headerImg from '../assets/img/HeaderImage.jpg'
 const GraphHomeComponent = () => {
     const backgroundImage = `url(${headerImg})`;
   return (
-    <div className='w-full h-screen object-cover' style={{backgroundImage}}>
+    <div className='w-full h-screen bg-cover' style={{backgroundImage}}>
       <HeaderHomePageComponent/>
     </div>
   )
