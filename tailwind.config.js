@@ -7,15 +7,17 @@ module.exports = {
     extend: {},
     fontSize: {
       'fs-acc': '26px',
-      'fs-ham':'14px'
+      'fs-ham-13': '13px',
+      'fs-ham-15': '15px'
     },
     // colors: {
     //   'col-acc': '#FFF',
     // },
     width: {
       'acc-76': '300px',
+      'acc-full': '100%'
     }
-    
+
   },
   plugins: [],
 }
