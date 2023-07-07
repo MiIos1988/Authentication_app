@@ -8,7 +8,7 @@ const HeaderHomePageComponent = () => {
     return (
         <div className=" p-1   bg-[#032758] md:bg-inherit ">
             <div className="container mx-auto pt-0 md:pt-10">
-                <nav className="mx-11 2xl:mx-48  md:flex justify-between items-center my-2 md:my-10 h-14 relative ">
+                <nav className="mx-11 2xl:mx-48  md:flex justify-between items-center my-2 md:my-10 h-14 static md:relative ">
                     <div className="flex h-full ">
 
                         <img src={logo} alt="Logo" className="mx-auto md:mx-0 my-auto self-center " />
