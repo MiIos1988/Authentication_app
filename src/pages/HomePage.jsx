@@ -1,10 +1,13 @@
 import React from 'react'
-import HeaderHomePageComponent from '../components/HeaderHomePageComponent'
+import GraphHomeComponent from '../components/GraphHomeComponent'
+import headerImg from "../assets/img/HeaderImage.jpg"
 
 const HomePage = () => {
+    const backgroundImage = `url(${headerImg})`;
+
     return (
-        <div>
-            <HeaderHomePageComponent />
+        <div className='w-full h-screen bg-cover' style={{ backgroundImage }}>
+            <GraphHomeComponent />
         </div>
     )
 }
