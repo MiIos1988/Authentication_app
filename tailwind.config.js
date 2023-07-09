@@ -13,10 +13,10 @@ module.exports = {
     // colors: {
     //   'col-acc': '#FFF',
     // },
-    width: {
-      'acc-76': '300px',
-      'acc-full': '100%'
-    }
+    // width: {
+    //   'acc-76': '300px',
+    //   'acc-full': '100%'
+    // }
 
   },
   plugins: [],
