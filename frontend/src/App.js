@@ -1,11 +1,13 @@
-import HomePage from "./pages/HomePage";
 import headerImg from './assets/img/HeaderImage.jpg'
+import { Outlet } from "react-router-dom";
+import HeaderHomePageComponent from "./components/HeaderHomePageComponent";
 
 function App() {
   const backgroundImage = `url(${headerImg})`;
   return (
     <div className='w-full h-screen bg-cover ' style={{backgroundImage}}>
-      <HomePage />
+      <HeaderHomePageComponent/>
+      <Outlet/>
     </div>
   );
 }

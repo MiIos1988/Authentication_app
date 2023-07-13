@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../assets/img/Logo-1.png";
 import en from "../assets/img/england.png";
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { Link } from "react-router-dom"
 
 const HeaderHomePageComponent = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
@@ -10,14 +11,19 @@ const HeaderHomePageComponent = () => {
             <div className="container mx-auto pt-0 md:pt-8">
                 <nav className="mx-11 2xl:mx-48  md:flex justify-between items-center my-1.5 md:my-10 h-14 static md:relative ">
                     <div className="flex h-full ">
-
-                        <img src={logo} alt="Logo" className="mx-auto md:mx-0  self-center " />
+                        <Link to={"/"}>
+                            <img src={logo} alt="Logo" className="mx-auto md:mx-0  self-center " />
+                        </Link>
                     </div>
                     <RxHamburgerMenu className={`flex xl:hidden text-[26px] text-white absolute right-3 top-7 md:static `} onClick={() => setMenuOpen(!isMenuOpen)} />
                     <ul className={`text-[13px] xl:text-[15px]  list-none gap-x-5 uppercase text-white ${!isMenuOpen ? "xl:flex hidden" : "xl:flex block xl:static absolute right-0 top-20 xl:bg-inherit bg-[#032758]   xl:w-[auto] md:w-[300px] w-[100%] xl:px-0 px-6"} `}>
                         {/* <li className="py-2 ">Home</li> */}
-                        <li className="py-2">Login</li>
-                        <li className="py-2">Register</li>
+                        <Link to={"/login"}>
+                            <li className="py-2">Login</li>
+                        </Link>
+                        <Link to={"/register"}>
+                            <li className="py-2">Register</li>
+                        </Link>
                         {/* <li className="py-2">Klijenti</li>
                         <li className="py-2">Kontakt</li> */}
                         <li className="flex py-2 ">

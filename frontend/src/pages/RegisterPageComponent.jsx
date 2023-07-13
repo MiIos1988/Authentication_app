@@ -3,7 +3,7 @@ import { FaUserAlt } from 'react-icons/fa';
 import { FaUnlock } from 'react-icons/fa';
 import { MdMail } from 'react-icons/md';
 
-const RegisterComponent = () => {
+const RegisterPageComponent = () => {
     return (
         <div className='container mx-auto'>
             <div className=' sm:mx-11 mx-2 2xl:mx-48 mt-8'>
@@ -43,4 +43,4 @@ const RegisterComponent = () => {
     )
 }
 
-export default RegisterComponent
+export default RegisterPageComponent
