@@ -15,7 +15,7 @@ const HeaderHomePageComponent = () => {
     const handleLanguageChange = () => {
         const newLanguage = i18n.language === 'sr' ? 'en' : 'sr';
         i18n.changeLanguage(newLanguage);
-      };
+    };
 
 
     return (
@@ -38,11 +38,11 @@ const HeaderHomePageComponent = () => {
                         </Link>
                         {/* <li className="py-2">Klijenti</li>
                         <li className="py-2">Kontakt</li> */}
-                        <li className="flex py-2 cursor-pointer w-px" 
-                        onClick={() => {
-                            setIsEnglish(!isEnglish);
-                            handleLanguageChange();
-                        }}>
+                        <li className="flex py-2 cursor-pointer w-px"
+                            onClick={() => {
+                                setIsEnglish(!isEnglish);
+                                handleLanguageChange();
+                            }}>
                             <span className="flex items-center" >
                                 <img src={isEnglish ? sr : en} alt="" className="shrink-0" />
                                 <span className="  ml-1">{isEnglish ? "Sr" : "En"}</span>

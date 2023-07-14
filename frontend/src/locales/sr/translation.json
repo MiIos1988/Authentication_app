@@ -1,5 +1,14 @@
 {
     "login": "Prijava",
-    "register": "Registracija"
+    "register": "Registracija",
+    "username": "Korisničko ime",
+    "login.rememberMe": "Zapamti me",
+    "login.forgotPassword": "Zaboravljena lozinka?",
+    "register.firstName": "Ime",
+    "register.lastName": "Prezime",
+    "register.email": "Email adresa",
+    "register.password": "Lozinka",
+    "register.confirmPassword": "Potvrdi lozinku"
+    
 }
   

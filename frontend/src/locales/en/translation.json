@@ -1,4 +1,12 @@
 {
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "username": "Username",
+    "login.rememberMe": "Remember me",
+    "login.forgotPassword": "Forgot Password?",
+    "register.firstName": "First Name?",
+    "register.lastName": "Last Name?",
+    "register.email": "Email Address?",
+    "register.password": "Password?",
+    "register.confirmPassword": "Confirm Password?"
 }
