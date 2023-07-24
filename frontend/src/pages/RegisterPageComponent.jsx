@@ -3,6 +3,8 @@ import { FaUserAlt } from 'react-icons/fa';
 import { FaUnlock } from 'react-icons/fa';
 import { MdMail } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
+
 
 const RegisterPageComponent = () => {
     const { t } = useTranslation();
@@ -14,10 +16,25 @@ const RegisterPageComponent = () => {
         password: "",
         confirmPassword: ""
     })
-
     const fillRegisterInput = e => {
         setRegisterInput({...registerInput, [e.target.name] : e.target.value})
-        
+    }
+    const registerValidationSchema = yup.object({
+        firstName: yup.string().required(),
+        lastName: yup.string().required(),
+        username: yup.string().min(4, "Too Short!").max(25, "Too Long!").required(),
+        email: yup.string().email("Invalid Email!").required(),
+        password: yup.string().required(),
+        confirmPassword: yup.string().required(),
+    })
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            await registerValidationSchema.validate(registerInput, { abortEarly: false })
+            console.log("ok")
+        }catch(err){
+            console.log(err.inner, "error*********")
+        }
     }
 
     return (
@@ -51,7 +68,7 @@ const RegisterPageComponent = () => {
                         <FaUnlock className='absolute top-[10px] left-2 text-2xl text-blue-900' />
                     </div>
 
-                    <button className='text-white bg-blue-700 mt-5 text-xl p-2 uppercase' onClick={() => console.log(registerInput)}>{t("register")}</button>
+                    <button className='text-white bg-blue-700 mt-5 text-xl p-2 uppercase' onClick={handleSubmit}>{t("register")}</button>
                 </form>
 
             </div>
