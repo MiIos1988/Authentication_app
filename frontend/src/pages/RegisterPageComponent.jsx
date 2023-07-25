@@ -6,9 +6,11 @@ import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {useNavigate} from "react-router-dom"
 
 const RegisterPageComponent = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [registerInput, setRegisterInput] = useState({
     firstName: "",
     lastName: "",
@@ -48,6 +50,15 @@ const RegisterPageComponent = () => {
         abortEarly: false,
       });
       console.log("ok");
+      setRegisterInput({
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      navigate("/login")
     } catch (err) {
       toast.error(err.inner[0].errors[0]);
     }
@@ -65,6 +76,7 @@ const RegisterPageComponent = () => {
           </h1>
           <div className="relative">
             <input
+              value={registerInput.firstName}
               type="text"
               placeholder={t("register.firstName")}
               name="firstName"
@@ -75,6 +87,7 @@ const RegisterPageComponent = () => {
           </div>
           <div className="relative">
             <input
+              value={registerInput.lastName}
               type="text"
               placeholder={t("register.lastName")}
               name="lastName"
@@ -85,6 +98,7 @@ const RegisterPageComponent = () => {
           </div>
           <div className="relative">
             <input
+              value={registerInput.username}
               type="text"
               placeholder={t("username")}
               name="username"
@@ -95,6 +109,7 @@ const RegisterPageComponent = () => {
           </div>
           <div className="relative">
             <input
+              value={registerInput.email}
               type="email"
               placeholder={t("register.email")}
               name="email"
@@ -105,6 +120,7 @@ const RegisterPageComponent = () => {
           </div>
           <div className="relative">
             <input
+              value={registerInput.password}
               type="password"
               placeholder={t("register.password")}
               name="password"
@@ -115,6 +131,7 @@ const RegisterPageComponent = () => {
           </div>
           <div className="relative">
             <input
+              value={registerInput.confirmPassword}
               type="password"
               placeholder={t("register.confirmPassword")}
               name="confirmPassword"
