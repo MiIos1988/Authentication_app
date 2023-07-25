@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { userData } from "../service/authService";
 
 const RegisterPageComponent = () => {
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ const RegisterPageComponent = () => {
         abortEarly: false,
       });
       console.log("ok");
+      userData(registerInput).then(data => console.log(data))
       setRegisterInput({
         firstName: "",
         lastName: "",
