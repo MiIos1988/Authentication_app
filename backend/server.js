@@ -7,21 +7,25 @@ const domain = process.env.ACTUAL_DOMAIN;
 const portNumber = process.env.PORT;
 const app = express();
 
+
 mongoose.connect(process.env.MONGO_DB_URL)
-.then((data) => {
+    .then((data) => {
         console.log('Mongo DB is connected...')
     })
     .catch((err) => {
         console.log(err);
         console.log('Error while connecting to Mongo DB...')
     });
-    
+
 app.use(express.json());
 const corsOptions = {
     origin: domain
 }
 app.use(cors(corsOptions));
 app.use("/api/auth", authRoute);
+
+
+
 
 app.listen(portNumber, (err) => {
     err

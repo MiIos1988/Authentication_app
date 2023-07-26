@@ -1,3 +1,3 @@
 import axios from "axios";
 
-export const userData = (data) => axios.post("http://localhost:5050/auth/register", data)
+export const userData = (data) => axios.post("/auth/register", data)

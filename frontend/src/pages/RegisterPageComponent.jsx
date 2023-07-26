@@ -30,7 +30,8 @@ const RegisterPageComponent = () => {
       .string()
       .required("Username is a required field!")
       .min(4, "Username too short!")
-      .max(25, "Username too long!"),
+      .max(25, "Username too long!")
+      .matches(/[a-zA-Z]/, "Username must contain at least one letter!"),
     email: yup
       .string()
       .email("Invalid Email!")
