@@ -7,8 +7,7 @@ import axios from "axios";
 
 function App() {
 
-axios.defaults.baseURL = "http://localhost:5050/api";
-console.log(process.env.REACT_APP_API_BASE_URL)
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
   const backgroundImage = `url(${headerImg})`;
   return (
     <div className='w-full h-screen bg-cover ' style={{backgroundImage}}>

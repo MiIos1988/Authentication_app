@@ -52,7 +52,8 @@ const RegisterPageComponent = () => {
         abortEarly: false,
       });
       console.log("ok");
-      userData(registerInput).then(data => console.log(data))
+      const dataUser = await userData(registerInput);
+      console.log(dataUser)
       setRegisterInput({
         firstName: "",
         lastName: "",
