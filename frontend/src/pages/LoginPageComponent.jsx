@@ -15,7 +15,7 @@ const LoginPageComponent = () => {
                 <form action="" className='flex flex-col w-[95%] sm:w-[420px] mx-auto align-center  shadow-[35px_35px_60px_15px_rgba(0,0,0,0.7)]  sm:p-10 p-5 rounded-xl' >
                     <FaUserTie className='text-[8rem] text-white m-auto pb-5' />
                     <div className='relative'>
-                        <input type="text" placeholder={t("username")} className='mb-3 p-2 pl-14 focus:outline-none w-full text-xl' />
+                        <input type="text" placeholder={t("register.email")} className='mb-3 p-2 pl-14 focus:outline-none w-full text-xl' />
                         < FaUserAlt className='absolute top-[10px] left-2 text-2xl text-blue-900' />
                     </div>
                     <div className='relative'>

@@ -100,7 +100,7 @@ const RegisterPageComponent = () => {
             />
             <FaUserAlt className="absolute top-[10px] left-2 text-2xl text-blue-900" />
           </div>
-          <div className="relative">
+          {/* <div className="relative">
             <input
               value={registerInput.username}
               type="text"
@@ -110,7 +110,7 @@ const RegisterPageComponent = () => {
               className="mb-3 p-2 pl-14 focus:outline-none w-full text-xl"
             />
             <FaUserAlt className="absolute top-[10px] left-2 text-2xl text-blue-900" />
-          </div>
+          </div> */}
           <div className="relative">
             <input
               value={registerInput.email}
