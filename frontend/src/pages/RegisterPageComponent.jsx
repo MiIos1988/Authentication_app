@@ -15,7 +15,6 @@ const RegisterPageComponent = () => {
   const [registerInput, setRegisterInput] = useState({
     firstName: "",
     lastName: "",
-    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,16 +25,10 @@ const RegisterPageComponent = () => {
   const registerValidationSchema = yup.object({
     firstName: yup.string().required("First Name is a required field!"),
     lastName: yup.string().required("Last Name is a required field!"),
-    username: yup
-      .string()
-      .required("Username is a required field!")
-      .min(4, "Username too short!")
-      .max(25, "Username too long!")
-      .matches(/[a-zA-Z]/, "Username must contain at least one letter!"),
-    email: yup
-      .string()
-      .email("Invalid Email!")
-      .required("Email is a required field!"),
+    // email: yup
+    //   .string()
+    //   .email("Invalid Email!")
+    //   .required("Email is a required field!"),
     password: yup
       .string()
       .required()
@@ -57,14 +50,13 @@ const RegisterPageComponent = () => {
       setRegisterInput({
         firstName: "",
         lastName: "",
-        username: "",
         email: "",
         password: "",
         confirmPassword: "",
       });
       navigate("/login")
     } catch (err) {
-      toast.error(err.inner[0].errors[0]);
+      // toast.error(err.inner[0].errors[0]);
     }
   };
 

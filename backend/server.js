@@ -18,10 +18,7 @@ mongoose.connect(process.env.MONGO_DB_URL)
     });
 
 app.use(express.json());
-const corsOptions = {
-    origin: domain
-}
-app.use(cors(corsOptions));
+app.use(cors());
 app.use("/api/auth", authRoute);
 
 
