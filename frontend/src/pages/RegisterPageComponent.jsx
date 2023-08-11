@@ -54,10 +54,11 @@ const RegisterPageComponent = () => {
         password: "",
         confirmPassword: "",
       });
+      toast.success("Registration success!")
       toast.info("Admin mast check your registration")
       setTimeout(() => {
         navigate("/login")
-      },2000)
+      },3000)
     } catch (err) {
       if (err.response && err.response.status === 411) {
         toast.error("Bad credentials!");

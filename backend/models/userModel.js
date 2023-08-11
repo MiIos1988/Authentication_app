@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: new Date(Date.now() + 2 * 3600000)
     }
 });
 
