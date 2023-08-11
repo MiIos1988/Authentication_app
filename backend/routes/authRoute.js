@@ -6,7 +6,7 @@ const registerValidation = require('../validation/registerValidation');
 authRoute.post("/register", registerValidation, (req, res) => {
     console.log(req.body)
     
-    res.send("ok")
+    res.send("okkk")
 
 });
 

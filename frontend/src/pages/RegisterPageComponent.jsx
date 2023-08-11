@@ -25,10 +25,10 @@ const RegisterPageComponent = () => {
   const registerValidationSchema = yup.object({
     firstName: yup.string().required("First Name is a required field!"),
     lastName: yup.string().required("Last Name is a required field!"),
-    // email: yup
-    //   .string()
-    //   .email("Invalid Email!")
-    //   .required("Email is a required field!"),
+    email: yup
+      .string()
+      .email("Invalid Email!")
+      .required("Email is a required field!"),
     password: yup
       .string()
       .required()
@@ -56,7 +56,14 @@ const RegisterPageComponent = () => {
       });
       navigate("/login")
     } catch (err) {
-      // toast.error(err.inner[0].errors[0]);
+      if (err.response && err.response.status === 411) {
+        toast.error("Bad credentials!");
+      }if (err.response && err.response.status === 412) {
+        toast.error("Email exist");
+      }
+       else {
+        err.inner[0].errors[0] ? toast.error(err.inner[0].errors[0]) : toast.error("Error");
+      }
     }
   };
 

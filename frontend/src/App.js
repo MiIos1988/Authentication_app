@@ -6,13 +6,12 @@ import axios from "axios";
 // dotenv.config();
 
 function App() {
-
-axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+  axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
   const backgroundImage = `url(${headerImg})`;
   return (
-    <div className='w-full h-screen bg-cover ' style={{backgroundImage}}>
-      <HeaderHomePageComponent/>
-      <Outlet/>
+    <div className='w-full h-screen bg-cover ' style={{ backgroundImage }}>
+      <HeaderHomePageComponent />
+      <Outlet />
     </div>
   );
 }
