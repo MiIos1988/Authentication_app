@@ -54,12 +54,17 @@ const RegisterPageComponent = () => {
         password: "",
         confirmPassword: "",
       });
-      navigate("/login")
+      toast.info("Admin mast check your registration")
+      setTimeout(() => {
+        navigate("/login")
+      },2000)
     } catch (err) {
       if (err.response && err.response.status === 411) {
         toast.error("Bad credentials!");
-      }if (err.response && err.response.status === 412) {
+      }else if (err.response && err.response.status === 412) {
         toast.error("Email exist");
+      }else if (err.response && err.response.status === 413){
+        toast.error("Registration error!");
       }
        else {
         err.inner[0].errors[0] ? toast.error(err.inner[0].errors[0]) : toast.error("Error");
