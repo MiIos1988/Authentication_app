@@ -105,17 +105,6 @@ const RegisterPageComponent = () => {
             />
             <FaUserAlt className="absolute top-[10px] left-2 text-2xl text-blue-900" />
           </div>
-          {/* <div className="relative">
-            <input
-              value={registerInput.username}
-              type="text"
-              placeholder={t("username")}
-              name="username"
-              onChange={fillRegisterInput}
-              className="mb-3 p-2 pl-14 focus:outline-none w-full text-xl"
-            />
-            <FaUserAlt className="absolute top-[10px] left-2 text-2xl text-blue-900" />
-          </div> */}
           <div className="relative">
             <input
               value={registerInput.email}
