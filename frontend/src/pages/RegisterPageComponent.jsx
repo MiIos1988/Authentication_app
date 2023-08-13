@@ -6,10 +6,22 @@ import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { userData } from "../service/authService";
+import {  useGoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 
 const RegisterPageComponent = () => {
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log(tokenResponse.access_token)
+      const decoded = jwt_decode(tokenResponse.access_token);
+      console.log(decoded)
+    },
+    onError: () => {
+      console.log("Login Failed");
+    },
+  });
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [registerInput, setRegisterInput] = useState({
@@ -46,7 +58,7 @@ const RegisterPageComponent = () => {
       });
       console.log("ok");
       const dataUser = await userData(registerInput);
-      console.log(dataUser)
+      console.log(dataUser);
       setRegisterInput({
         firstName: "",
         lastName: "",
@@ -54,21 +66,22 @@ const RegisterPageComponent = () => {
         password: "",
         confirmPassword: "",
       });
-      toast.success("Registration success!")
-      toast.info("Admin mast check your registration")
+      toast.success("Registration success!");
+      toast.info("Admin mast check your registration");
       setTimeout(() => {
-        navigate("/login")
-      },3000)
+        navigate("/login");
+      }, 3000);
     } catch (err) {
       if (err.response && err.response.status === 411) {
         toast.error("Bad credentials!");
-      }else if (err.response && err.response.status === 412) {
+      } else if (err.response && err.response.status === 412) {
         toast.error("Email exist");
-      }else if (err.response && err.response.status === 413){
+      } else if (err.response && err.response.status === 413) {
         toast.error("Registration error!");
-      }
-       else {
-        err.inner[0].errors[0] ? toast.error(err.inner[0].errors[0]) : toast.error("Error");
+      } else {
+        err.inner[0].errors[0]
+          ? toast.error(err.inner[0].errors[0])
+          : toast.error("Error");
       }
     }
   };
@@ -145,6 +158,10 @@ const RegisterPageComponent = () => {
           >
             {t("register")}
           </button>
+        <button onClick={(e) =>{
+          e.preventDefault();
+          login()
+        } }>Google</button>
         </form>
         <ToastContainer
           position="top-right"
