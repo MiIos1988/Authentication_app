@@ -8,8 +8,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userData } from "../service/authService";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { auth } from "../firebase"
 
 const RegisterPageComponent = () => {
+
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log(user)
+  }
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [registerInput, setRegisterInput] = useState({
@@ -146,6 +156,10 @@ const RegisterPageComponent = () => {
           >
             {t("register")}
           </button>
+          <button onClick={e => {
+            e.preventDefault();
+            handleGoogleLogin();
+          }}>Google</button>
         </form>
         <ToastContainer
           position="top-right"
