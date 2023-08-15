@@ -15,10 +15,15 @@ import { auth } from "../firebase"
 const RegisterPageComponent = () => {
 
   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    console.log(user)
+    try{
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user)
+    }
+    catch(err){
+      toast.error("Error in google!");
+    }
   }
 
   const { t } = useTranslation();
