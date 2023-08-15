@@ -8,20 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userData } from "../service/authService";
-import {  useGoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
 
 const RegisterPageComponent = () => {
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log(tokenResponse.access_token)
-      const decoded = jwt_decode(tokenResponse.access_token);
-      console.log(decoded)
-    },
-    onError: () => {
-      console.log("Login Failed");
-    },
-  });
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [registerInput, setRegisterInput] = useState({
@@ -158,10 +146,6 @@ const RegisterPageComponent = () => {
           >
             {t("register")}
           </button>
-        <button onClick={(e) =>{
-          e.preventDefault();
-          login()
-        } }>Google</button>
         </form>
         <ToastContainer
           position="top-right"
