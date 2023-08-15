@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { FaUnlock } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { MdMail } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -156,10 +157,10 @@ const RegisterPageComponent = () => {
           >
             {t("register")}
           </button>
-          <button onClick={e => {
+          <button className="text-blue-700 bg-white mt-5 text-xl p-2 uppercase relative font-bold" onClick={e => {
             e.preventDefault();
             handleGoogleLogin();
-          }}>Google</button>
+          }}><FcGoogle className="absolute text-4xl top-1 "/>Google</button>
         </form>
         <ToastContainer
           position="top-right"
