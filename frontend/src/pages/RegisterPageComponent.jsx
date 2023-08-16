@@ -11,20 +11,24 @@ import { useNavigate } from "react-router-dom";
 import { userData } from "../service/authService";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import { auth } from "../firebase"
+import { useGoogleLogin } from '@react-oauth/google';
 
 const RegisterPageComponent = () => {
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: tokenResponse => console.log(tokenResponse),
+  });
 
-  const handleGoogleLogin = async () => {
-    try{
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log(user)
-    }
-    catch(err){
-      toast.error("Error in google!");
-    }
-  }
+  // const handleGoogleLogin = async () => {
+  //   try{
+  //     const provider = new GoogleAuthProvider();
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+  //     console.log(user)
+  //   }
+  //   catch(err){
+  //     toast.error("Error in google!");
+  //   }
+  // }
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -162,7 +166,7 @@ const RegisterPageComponent = () => {
           >
             {t("register")}
           </button>
-          <button className="text-blue-700 bg-white mt-5 text-xl p-2 uppercase relative font-bold" onClick={e => {
+          <button className="text-blue-700 bg-white mt-3 text-xl p-2 uppercase relative font-bold" onClick={e => {
             e.preventDefault();
             handleGoogleLogin();
           }}><FcGoogle className="absolute text-4xl top-1 "/>Google</button>
