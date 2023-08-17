@@ -8,27 +8,26 @@ import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { userData } from "../service/authService";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
-import { auth } from "../firebase"
+import { userData, userDataGoogle } from "../service/authService";
 import { useGoogleLogin } from '@react-oauth/google';
 
 const RegisterPageComponent = () => {
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: tokenResponse => console.log(tokenResponse),
-  });
+    onSuccess: async tokenResponse => {
+      try {
+        const dataUserGoogle = await userDataGoogle({ token: tokenResponse.access_token });
 
-  // const handleGoogleLogin = async () => {
-  //   try{
-  //     const provider = new GoogleAuthProvider();
-  //     const result = await signInWithPopup(auth, provider);
-  //     const user = result.user;
-  //     console.log(user)
-  //   }
-  //   catch(err){
-  //     toast.error("Error in google!");
-  //   }
-  // }
+        toast.success("Registration success!");
+        toast.info("Admin mast check your registration");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      }
+      catch (err) {
+        toast.error("Google registration error!");
+      }
+    }
+  });
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -64,7 +63,6 @@ const RegisterPageComponent = () => {
       await registerValidationSchema.validate(registerInput, {
         abortEarly: false,
       });
-      console.log("ok");
       const dataUser = await userData(registerInput);
       console.log(dataUser);
       setRegisterInput({
@@ -169,7 +167,7 @@ const RegisterPageComponent = () => {
           <button className="text-blue-700 bg-white mt-3 text-xl p-2 uppercase relative font-bold" onClick={e => {
             e.preventDefault();
             handleGoogleLogin();
-          }}><FcGoogle className="absolute text-4xl top-1 "/>Google</button>
+          }}><FcGoogle className="absolute text-4xl top-1 " />Google</button>
         </form>
         <ToastContainer
           position="top-right"
