@@ -18,8 +18,7 @@ const registerValidation = async (req, res, next) => {
   ) {
     return res.status(411).send("Error");
   } else {
-   const emailExist = await UserModel.findOne({email: data.email});
-   console.log(emailExist)
+    const emailExist = await UserModel.findOne({email: data.email});
     emailExist ?  res.status(412).send("Email exist") : next()
   }
 }
