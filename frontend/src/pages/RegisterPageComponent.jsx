@@ -63,6 +63,7 @@ const RegisterPageComponent = () => {
       await registerValidationSchema.validate(registerInput, {
         abortEarly: false,
       });
+      console.log("click")
       const dataUser = await userData(registerInput);
       console.log(dataUser);
       setRegisterInput({

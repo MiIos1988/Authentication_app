@@ -8,8 +8,8 @@ const emailRegexp =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 authRoute.post("/register", registerValidation, async (req, res) => {
-  req.body.password = bcrypt.hashSync(req.body.password, 10);
   try {
+    req.body.password = bcrypt.hashSync(req.body.password, 10);
     const newUser = await UserModel.create(req.body);
     newUser.save();
     res.send("User registered!");
