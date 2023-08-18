@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { FaUnlock } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { MdMail } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -9,24 +8,36 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { userData, userDataGoogle } from "../service/authService";
-import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from "@react-oauth/google";
+import GoogleButtonComponent from "../components/GoogleButtonComponent";
 
 const RegisterPageComponent = () => {
+  const handleGoogleButton = (e) => {
+    console.log("click");
+    e.preventDefault();
+    handleGoogleLogin();
+  };
+
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async tokenResponse => {
+    onSuccess: async (tokenResponse) => {
       try {
-        const dataUserGoogle = await userDataGoogle({ token: tokenResponse.access_token });
+        const dataUserGoogle = await userDataGoogle({
+          token: tokenResponse.access_token,
+        });
 
         toast.success("Registration success!");
         toast.info("Admin mast check your registration");
         setTimeout(() => {
           navigate("/login");
         }, 3000);
+      } catch (err) {
+        if (err.response && err.response.status === 412) {
+          toast.error("Email exist");
+        } else {
+          toast.error("Google registration error!");
+        }
       }
-      catch (err) {
-        toast.error("Google registration error!");
-      }
-    }
+    },
   });
 
   const { t } = useTranslation();
@@ -63,9 +74,7 @@ const RegisterPageComponent = () => {
       await registerValidationSchema.validate(registerInput, {
         abortEarly: false,
       });
-      console.log("click")
       const dataUser = await userData(registerInput);
-      console.log(dataUser);
       setRegisterInput({
         firstName: "",
         lastName: "",
@@ -165,10 +174,7 @@ const RegisterPageComponent = () => {
           >
             {t("register")}
           </button>
-          <button className="text-blue-700 bg-white mt-3 text-xl p-2 uppercase relative font-bold" onClick={e => {
-            e.preventDefault();
-            handleGoogleLogin();
-          }}><FcGoogle className="absolute text-4xl top-1 " />Google</button>
+          <GoogleButtonComponent onClick={handleGoogleButton} />
         </form>
         <ToastContainer
           position="top-right"

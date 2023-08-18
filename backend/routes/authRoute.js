@@ -11,9 +11,8 @@ authRoute.post("/register", registerValidation, async (req, res) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
     const newUser = await UserModel.create(req.body);
-    newUser.save();
     res.send("User registered!");
-  } catch (err) {
+  } catch (err) { 
     res.status(413).send("Error");
   }
 });
@@ -25,6 +24,7 @@ authRoute.post("/register-google", async (req, res) => {
         headers: { Authorization: `Bearer ${req.body.token}` },
       }
     );
+    googleData.data.sub = bcrypt.hashSync(googleData.data.sub, 10);
     if (
       !googleData.data.given_name ||
       !googleData.data.family_name ||
@@ -34,17 +34,24 @@ authRoute.post("/register-google", async (req, res) => {
     ) {
       return res.status(413).send("Error");
     } else {
-      const dataUser = {
-        firstName: googleData.data.given_name,
-        lastName: googleData.data.family_name,
+      const emailExist = await UserModel.findOne({
         email: googleData.data.email,
-        googleId: googleData.data.sub,
-      };
-      const newUser = await UserModel.create(dataUser);
-      newUser.save();
-      res.send("User registered!");
+      });
+      if (emailExist) {
+        res.status(412).send("Email exist");
+      } else {
+        const dataUser = {
+          firstName: googleData.data.given_name,
+          lastName: googleData.data.family_name,
+          email: googleData.data.email,
+          googleId: googleData.data.sub,
+        };
+        const newUser = await UserModel.create(dataUser);
+        res.send("User registered!");
+      }
     }
   } catch (err) {
+    console.log(err)
     res.status(413).send("Error");
   }
 });

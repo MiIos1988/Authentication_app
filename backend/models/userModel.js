@@ -33,10 +33,10 @@ const userSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date(Date.now() + 2 * 3600000)
+        default: new Date().toUTCString(),
     }
 });
 
-const UserModel  = mongoose.model('User', userSchema);
+const UserModel  = mongoose.model('users', userSchema);
 
 module.exports = UserModel;
