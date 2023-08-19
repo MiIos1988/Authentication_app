@@ -4,8 +4,7 @@ const UserModel = require("../models/userModel");
 const registerValidation = require("../validation/registerValidation");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
-const emailRegexp =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const loginValidation = require("../validation/loginValidation");
 
 authRoute.post("/register", registerValidation, async (req, res) => {
   try {
@@ -30,7 +29,7 @@ authRoute.post("/register-google", async (req, res) => {
       !googleData.data.family_name ||
       !googleData.data.sub ||
       !googleData.data.email ||
-      !emailRegexp.test(googleData.data.email)
+      !validator.isEmail(googleData.data.email)
     ) {
       return res.status(413).send("Error");
     } else {
@@ -56,7 +55,7 @@ authRoute.post("/register-google", async (req, res) => {
   }
 });
 
-authRoute.post("/login", (req, res) => {
+authRoute.post("/login", loginValidation, (req, res) => {
   console.log(req.body)
   res.send("ok")
 })

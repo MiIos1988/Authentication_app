@@ -1,14 +1,12 @@
 const UserModel = require("../models/userModel");
-
+const validator = require('validator');
 
 const registerValidation = async (req, res, next) => {
   const data = req.body;
-  const emailRegexp =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   if (
     !data.email ||
-    !emailRegexp.test(data.email) ||
+    !validator.isEmail(data.email) ||
     !data.password ||
     data.password.length < 6 ||
     !data.confirmPassword ||

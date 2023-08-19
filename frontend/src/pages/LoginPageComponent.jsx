@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { loginData } from "../service/authService";
+import validator from 'validator';
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -15,13 +16,11 @@ const LoginPageComponent = () => {
     email: "",
     password: "",
   });
-  const emailRegexp =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if(!emailRegexp.test(loginUser.email)){
+    if(!validator.isEmail(loginUser.email)){
         return toast.error("Invalid email!");
     }
     if(loginUser.password.length < 6){
