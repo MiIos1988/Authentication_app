@@ -7,6 +7,7 @@ import GoogleButtonComponent from "../components/GoogleButtonComponent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { loginData } from "../service/authService";
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -17,6 +18,29 @@ const LoginPageComponent = () => {
   const emailRegexp =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
   const navigate = useNavigate();
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    if(!emailRegexp.test(loginUser.email)){
+        return toast.error("Invalid email!");
+    }
+    if(loginUser.password.length < 6){
+        return toast.error("Invalid password!");
+    }
+    try{
+    const dataLogin = await loginData(loginUser);
+
+    
+
+    navigate('/')
+    setLoginUser({
+        email: "",
+        password: ""
+    });
+}catch(err){
+    toast.error("Login error!");  
+}
+}
 
   return (
     <div className="container mx-auto">
@@ -59,24 +83,7 @@ const LoginPageComponent = () => {
           </div>
           <button
             className="text-white bg-blue-700 mt-5 text-xl p-2 uppercase"
-            onClick={(e) => {
-                e.preventDefault();
-               
-                if(!emailRegexp.test(loginUser.email)){
-                    return toast.error("Invalid email!");
-                }
-                if(loginUser.password.length < 6){
-                    return toast.error("Invalid password!");
-                }
-                
-
-                console.log(loginUser);
-                navigate('/')
-                setLoginUser({
-                    email: "",
-                    password: ""
-                });
-            }}
+            onClick={handleLoginSubmit}
           >
             {t("login")}{" "}
           </button>

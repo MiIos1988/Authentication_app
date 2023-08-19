@@ -56,4 +56,9 @@ authRoute.post("/register-google", async (req, res) => {
   }
 });
 
+authRoute.post("/login", (req, res) => {
+  console.log(req.body)
+  res.send("ok")
+})
+
 module.exports = authRoute;

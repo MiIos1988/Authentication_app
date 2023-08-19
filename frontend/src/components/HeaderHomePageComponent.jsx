@@ -29,7 +29,9 @@ const HeaderHomePageComponent = () => {
                     </div>
                     <RxHamburgerMenu className={`flex xl:hidden text-[26px] text-white absolute right-3 top-7 md:static `} onClick={() => setMenuOpen(!isMenuOpen)} />
                     <ul className={`text-[13px] xl:text-[15px]  list-none gap-x-5 uppercase text-white ${!isMenuOpen ? "xl:flex hidden" : "xl:flex block xl:static absolute right-0 top-20 xl:bg-inherit bg-[#032758]   xl:w-[auto] md:w-[300px] w-[100%] xl:px-0 px-6"} `}>
-                        {/* <li className="py-2 ">Home</li> */}
+                        <Link to={"/"}>
+                        <li className="py-2 ">Home</li>
+                        </Link>
                         <Link to={"/login"}>
                             <li className="py-2">{t('login')}</li>
                         </Link>
