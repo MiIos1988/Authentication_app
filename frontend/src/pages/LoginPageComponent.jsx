@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import GoogleButtonComponent from "../components/GoogleButtonComponent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -15,6 +16,7 @@ const LoginPageComponent = () => {
   });
   const emailRegexp =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  const navigate = useNavigate();
 
   return (
     <div className="container mx-auto">
@@ -69,6 +71,7 @@ const LoginPageComponent = () => {
                 
 
                 console.log(loginUser);
+                navigate('/')
                 setLoginUser({
                     email: "",
                     password: ""
