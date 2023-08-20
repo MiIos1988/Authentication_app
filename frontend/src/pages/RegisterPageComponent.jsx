@@ -13,7 +13,6 @@ import GoogleButtonComponent from "../components/GoogleButtonComponent";
 
 const RegisterPageComponent = () => {
   const handleGoogleButton = (e) => {
-    console.log("click");
     e.preventDefault();
     handleGoogleLogin();
   };

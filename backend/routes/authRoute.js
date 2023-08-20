@@ -5,6 +5,7 @@ const registerValidation = require("../validation/registerValidation");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 const loginValidation = require("../validation/loginValidation");
+const validator = require('validator');
 
 authRoute.post("/register", registerValidation, async (req, res) => {
   try {

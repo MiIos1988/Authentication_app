@@ -19,9 +19,11 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
+        default: ""
     },
     googleId: {
         type: String,
+        default: ""
     },
     isAdmin: {
         type: Boolean,

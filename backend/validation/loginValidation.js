@@ -17,6 +17,8 @@ const loginValidation = async (req, res, next) => {
             if(!userExist){
               return  res.status(420).send("Email error");
             }
+            console.log(data.password)
+            console.log(userExist.password)
             if(!bcrypt.compareSync(data.password, userExist.password)){
                 return  res.status(421).send("Password error");
             }
