@@ -61,4 +61,39 @@ authRoute.post("/login", loginValidation, (req, res) => {
   res.send("ok")
 })
 
+authRoute.post("/login-google", async (req, res) => {
+  try {
+    const googleData = await axios.get(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: { Authorization: `Bearer ${req.body.token}` },
+      }
+    );
+    if (
+      !googleData.data.sub ||
+      !googleData.data.email ||
+      !validator.isEmail(googleData.data.email)
+    ) {
+      return res.status(413).send("Error");
+    } 
+    const userExist = await UserModel.findOne({
+      email: googleData.data.email,
+    });
+    if(!userExist.email ||
+       !userExist.googleId ||
+       !bcrypt.compareSync(googleData.data.sub, userExist.googleId)
+      ){
+      return  res.status(413).send("Error");
+  }
+  if(!userExist.isActive){
+    return res.status(422).send("Admin mast your account!");
+}
+    console.log("workkkkkkkkkkkkkkkk")
+    res.send("User login!");
+  } catch (err) { 
+    console.log(err)
+    res.status(414).send("Error");
+  }
+});
+
 module.exports = authRoute;

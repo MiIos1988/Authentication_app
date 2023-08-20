@@ -7,8 +7,9 @@ import GoogleButtonComponent from "../components/GoogleButtonComponent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { loginData } from "../service/authService";
+import { loginData, userDataGoogleLogin } from "../service/authService";
 import validator from "validator";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -47,6 +48,29 @@ const LoginPageComponent = () => {
       }
     }
   };
+  const handleGoogleButton = (e) => {
+    e.preventDefault();
+    handleGoogleLogin();
+  }
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const dataUserGoogle = await userDataGoogleLogin({
+          token: tokenResponse.access_token,
+        });
+
+      } catch (err) {
+        if (err.response && err.response.status === 413) {
+          toast.error("Google login error!");
+        }else if (err.response && err.response.status === 422) {
+          toast.error("Admin mast activate your account!");
+        }
+         else {
+          toast.error("Login error!");
+        }
+      }
+    },
+  });
 
   return (
     <div className="container mx-auto">
@@ -93,7 +117,7 @@ const LoginPageComponent = () => {
           >
             {t("login")}{" "}
           </button>
-          <GoogleButtonComponent />
+          <GoogleButtonComponent onClick={handleGoogleButton}/>
         </form>
         <ToastContainer
           position="top-right"
