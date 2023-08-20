@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { loginData } from "../service/authService";
-import validator from 'validator';
+import validator from "validator";
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -20,26 +20,31 @@ const LoginPageComponent = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if(!validator.isEmail(loginUser.email)){
-        return toast.error("Invalid email!");
+    if (!validator.isEmail(loginUser.email)) {
+      return toast.error("Invalid email!");
     }
-    if(loginUser.password.length < 6){
-        return toast.error("Invalid password!");
+    if (loginUser.password.length < 6) {
+      return toast.error("Invalid password!");
     }
-    try{
-    const dataLogin = await loginData(loginUser);
+    try {
+      const dataLogin = await loginData(loginUser);
 
-    
-
-    navigate('/')
-    setLoginUser({
+      navigate("/");
+      setLoginUser({
         email: "",
-        password: ""
-    });
-}catch(err){
-    toast.error("Login error!");  
-}
-}
+        password: "",
+      });
+    } catch (err) {
+      if (err.response && err.response.status === 420) {
+        toast.error("Email not register!");
+      } else if (err.response && err.response.status === 421) {
+        toast.error("Password is not valid!");
+      } else {
+        console.log(err.response.status)
+        toast.error("Login error!");
+      }
+    }
+  };
 
   return (
     <div className="container mx-auto">
