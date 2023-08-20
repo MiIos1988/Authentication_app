@@ -39,6 +39,8 @@ const LoginPageComponent = () => {
         toast.error("Email not register!");
       } else if (err.response && err.response.status === 421) {
         toast.error("Password is not valid!");
+      } else if (err.response && err.response.status === 422) {
+        toast.error("Admin mast activate your account!");
       } else {
         console.log(err.response.status)
         toast.error("Login error!");
