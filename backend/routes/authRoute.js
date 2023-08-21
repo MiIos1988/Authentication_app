@@ -6,13 +6,15 @@ const bcrypt = require("bcrypt");
 const axios = require("axios");
 const loginValidation = require("../validation/loginValidation");
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 authRoute.post("/register", registerValidation, async (req, res) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
     const newUser = await UserModel.create(req.body);
     res.send("User registered!");
-  } catch (err) { 
+  } catch (err) {
     res.status(413).send("Error");
   }
 });
@@ -56,9 +58,17 @@ authRoute.post("/register-google", async (req, res) => {
   }
 });
 
-authRoute.post("/login", loginValidation, (req, res) => {
-  console.log(req.body)
-  res.send("ok")
+authRoute.post("/login", loginValidation, async (req, res) => {
+  let userData = await UserModel.findOne({ email: req.body.email });
+  console.log(userData)
+  userData = {
+    email: userData.email,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    isAdmin: userData.isAdmin
+  };
+  const token = jwt.sign(userData, process.env.JWT_SECRET_KEY);
+  res.send({ token })
 })
 
 authRoute.post("/login-google", async (req, res) => {
@@ -75,22 +85,29 @@ authRoute.post("/login-google", async (req, res) => {
       !validator.isEmail(googleData.data.email)
     ) {
       return res.status(413).send("Error");
-    } 
-    const userExist = await UserModel.findOne({
+    }
+    let userExist = await UserModel.findOne({
       email: googleData.data.email,
     });
-    if(!userExist.email ||
-       !userExist.googleId ||
-       !bcrypt.compareSync(googleData.data.sub, userExist.googleId)
-      ){
-      return  res.status(413).send("Error");
-  }
-  if(!userExist.isActive){
-    return res.status(422).send("Admin mast your account!");
-}
-    console.log("workkkkkkkkkkkkkkkk")
-    res.send("User login!");
-  } catch (err) { 
+    if (!userExist.email ||
+      !userExist.googleId ||
+      !bcrypt.compareSync(googleData.data.sub, userExist.googleId)
+    ) {
+      return res.status(413).send("Error");
+    }
+    if (!userExist.isActive) {
+      return res.status(422).send("Admin mast your account!");
+    }
+    userExist = {
+      email: userExist.email,
+      firstName: userExist.firstName,
+      lastName: userExist.lastName,
+      isAdmin: userExist.isAdmin
+    }
+    console.log(userExist)
+    const token = jwt.sign(userExist, process.env.JWT_SECRET_KEY);
+    res.send({ token })
+  } catch (err) {
     console.log(err)
     res.status(414).send("Error");
   }

@@ -29,7 +29,7 @@ const LoginPageComponent = () => {
     }
     try {
       const dataLogin = await loginData(loginUser);
-
+      console.log(dataLogin)
       navigate("/");
       setLoginUser({
         email: "",
@@ -43,7 +43,6 @@ const LoginPageComponent = () => {
       } else if (err.response && err.response.status === 422) {
         toast.error("Admin mast activate your account!");
       } else {
-        console.log(err.response.status)
         toast.error("Login error!");
       }
     }
@@ -58,14 +57,15 @@ const LoginPageComponent = () => {
         const dataUserGoogle = await userDataGoogleLogin({
           token: tokenResponse.access_token,
         });
-
+        console.log(dataUserGoogle);
+        navigate("/");
       } catch (err) {
         if (err.response && err.response.status === 413) {
           toast.error("Google login error!");
-        }else if (err.response && err.response.status === 422) {
+        } else if (err.response && err.response.status === 422) {
           toast.error("Admin mast activate your account!");
         }
-         else {
+        else {
           toast.error("Login error!");
         }
       }
@@ -117,7 +117,7 @@ const LoginPageComponent = () => {
           >
             {t("login")}{" "}
           </button>
-          <GoogleButtonComponent onClick={handleGoogleButton}/>
+          <GoogleButtonComponent onClick={handleGoogleButton} />
         </form>
         <ToastContainer
           position="top-right"
