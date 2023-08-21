@@ -11,6 +11,8 @@ import { loginData, setTokenInLocalStorage, userDataGoogleLogin } from "../servi
 import validator from "validator";
 import { useGoogleLogin } from "@react-oauth/google";
 import jwt_decode from 'jwt-decode';
+import { saveUser } from "../redux/userSlicer";
+import { useDispatch } from "react-redux";
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -19,11 +21,12 @@ const LoginPageComponent = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getDataUser = (dataUser) => {
     const decodedToken = jwt_decode(dataUser.data.token);
-    console.log(decodedToken)
     setTokenInLocalStorage(dataUser.data.token)
+    dispatch(saveUser(decodedToken));
   }
 
   const handleLoginSubmit = async (e) => {
