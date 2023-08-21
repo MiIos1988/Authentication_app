@@ -7,9 +7,10 @@ import GoogleButtonComponent from "../components/GoogleButtonComponent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { loginData, userDataGoogleLogin } from "../service/authService";
+import { loginData, setTokenInLocalStorage, userDataGoogleLogin } from "../service/authService";
 import validator from "validator";
 import { useGoogleLogin } from "@react-oauth/google";
+import jwt_decode from 'jwt-decode';
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -18,6 +19,12 @@ const LoginPageComponent = () => {
     password: "",
   });
   const navigate = useNavigate();
+
+  const getDataUser = (dataUser) => {
+    const decodedToken = jwt_decode(dataUser.data.token);
+    console.log(decodedToken)
+    setTokenInLocalStorage(dataUser.data.token)
+  }
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +36,7 @@ const LoginPageComponent = () => {
     }
     try {
       const dataLogin = await loginData(loginUser);
-      console.log(dataLogin)
+      getDataUser(dataLogin)
       navigate("/");
       setLoginUser({
         email: "",
@@ -57,7 +64,7 @@ const LoginPageComponent = () => {
         const dataUserGoogle = await userDataGoogleLogin({
           token: tokenResponse.access_token,
         });
-        console.log(dataUserGoogle);
+        getDataUser(dataUserGoogle)
         navigate("/");
       } catch (err) {
         if (err.response && err.response.status === 413) {

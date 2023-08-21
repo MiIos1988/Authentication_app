@@ -45,10 +45,12 @@ authRoute.post("/register-google", async (req, res) => {
       if (emailExist) {
         res.status(412).send("Email exist");
       } else {
+        console.log(googleData)
         const dataUser = {
           firstName: googleData.data.given_name,
           lastName: googleData.data.family_name,
           email: googleData.data.email,
+          picture: googleData.data.picture,
           googleId: googleData.data.sub,
         };
         const newUser = await UserModel.create(dataUser);
@@ -68,7 +70,8 @@ authRoute.post("/login", loginValidation, async (req, res) => {
     email: userData.email,
     firstName: userData.firstName,
     lastName: userData.lastName,
-    role: userData.role
+    role: userData.role,
+    picture: userData.picture
   };
   const token = jwt.sign(userData, process.env.JWT_SECRET_KEY);
   res.send({ token })
@@ -105,9 +108,9 @@ authRoute.post("/login-google", async (req, res) => {
       email: userExist.email,
       firstName: userExist.firstName,
       lastName: userExist.lastName,
-      role: userExist.role
+      role: userExist.role,
+      picture: userExist.picture
     }
-    console.log(userExist)
     const token = jwt.sign(userExist, process.env.JWT_SECRET_KEY);
     res.send({ token })
   } catch (err) {
