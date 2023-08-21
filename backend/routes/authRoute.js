@@ -8,10 +8,12 @@ const loginValidation = require("../validation/loginValidation");
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const saltRounds = 10;
 
 authRoute.post("/register", registerValidation, async (req, res) => {
   try {
-    req.body.password = bcrypt.hashSync(req.body.password, 10);
+    const salt = bcrypt.genSaltSync(saltRounds);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
     const newUser = await UserModel.create(req.body);
     res.send("User registered!");
   } catch (err) {
@@ -26,7 +28,8 @@ authRoute.post("/register-google", async (req, res) => {
         headers: { Authorization: `Bearer ${req.body.token}` },
       }
     );
-    googleData.data.sub = bcrypt.hashSync(googleData.data.sub, 10);
+    const salt = bcrypt.genSaltSync(saltRounds);
+    googleData.data.sub = bcrypt.hashSync(googleData.data.sub, salt);
     if (
       !googleData.data.given_name ||
       !googleData.data.family_name ||
@@ -65,7 +68,7 @@ authRoute.post("/login", loginValidation, async (req, res) => {
     email: userData.email,
     firstName: userData.firstName,
     lastName: userData.lastName,
-    isAdmin: userData.isAdmin
+    role: userData.role
   };
   const token = jwt.sign(userData, process.env.JWT_SECRET_KEY);
   res.send({ token })
@@ -102,7 +105,7 @@ authRoute.post("/login-google", async (req, res) => {
       email: userExist.email,
       firstName: userExist.firstName,
       lastName: userExist.lastName,
-      isAdmin: userExist.isAdmin
+      role: userExist.role
     }
     console.log(userExist)
     const token = jwt.sign(userExist, process.env.JWT_SECRET_KEY);

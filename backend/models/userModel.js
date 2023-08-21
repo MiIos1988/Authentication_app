@@ -25,10 +25,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
+    role: {
+        type: String,
+        enum: ['guest', 'user', 'admin'],
+        default: 'guest'
+      },
     isActive: {
         type: Boolean,
         default: false,
