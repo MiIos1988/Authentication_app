@@ -7,18 +7,27 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../redux/userSlicer";
 
 const HeaderHomePageComponent = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isEnglish, setIsEnglish] = useState(false);
+  const [displayLogout, setDisplayLogout] = useState(false);
   const { t } = useTranslation();
   const userStore = useSelector((store) => store.userSlicer.user);
+  const dispatch = useDispatch();
 
   const handleLanguageChange = () => {
     const newLanguage = i18n.language === "sr" ? "en" : "sr";
     i18n.changeLanguage(newLanguage);
   };
+
+  const handleLogout = (e) => {
+    e.stopPropagation();
+    setDisplayLogout(false)
+    dispatch(removeUser())
+  }
 
   return (
     <div className=" p-2   bg-[#032758] md:bg-inherit ">
@@ -38,11 +47,10 @@ const HeaderHomePageComponent = () => {
             onClick={() => setMenuOpen(!isMenuOpen)}
           />
           <ul
-            className={`text-[13px] xl:text-[15px]  list-none gap-x-5 uppercase text-white ${
-              !isMenuOpen
-                ? "xl:flex hidden"
-                : "xl:flex block xl:static absolute right-0 top-20 xl:bg-inherit bg-[#032758]   xl:w-[auto] md:w-[300px] w-[100%] xl:px-0 px-6"
-            } `}
+            className={`text-[13px] xl:text-[15px]  list-none gap-x-5 uppercase text-white ${!isMenuOpen
+              ? "xl:flex hidden"
+              : "xl:flex block xl:static absolute right-0 top-20 xl:bg-inherit bg-[#032758]   xl:w-[auto] md:w-[300px] w-[100%] xl:px-0 px-6"
+              } `}
           >
             {/* <Link to={"/"} className="flex items-center">
               <li className="py-2">Home</li>
@@ -57,8 +65,11 @@ const HeaderHomePageComponent = () => {
                 </Link>
               </>
             ) : (
-              <li>
-                {userStore.picture === "" ? <FaRegUserCircle className="text-5xl"/> : <img src={userStore.picture} className="rounded-full w-12 h-12"/>}
+              <li className="relative cursor-pointer" onClick={() => {
+                setDisplayLogout(!displayLogout)
+              }}>
+                {userStore.picture === "" ? <FaRegUserCircle className="text-5xl" /> : <img src={userStore.picture} className="rounded-full w-12 h-12" />}
+                <div className={`${!displayLogout ? "hidden" : "absolute"}  bottom--15 left-0 w-300` } onClick={handleLogout}>LOGOUT</div>
               </li>
             )}
 
@@ -78,6 +89,7 @@ const HeaderHomePageComponent = () => {
             </li>
           </ul>
         </nav>
+
       </div>
     </div>
   );
