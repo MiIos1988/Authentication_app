@@ -8,4 +8,4 @@ export const loginData = (data) => axios.post("/auth/login", data);
 
 export const userDataGoogleLogin = (data) => axios.post("/auth/login-google", data);
 
-export const setTokenInLocalStorage = (token) => localStorage.setItem("token", JSON.stringify(token))
+export const setTokenInLocalStorage = (token) => localStorage.setItem("token-acc", JSON.stringify(token))
