@@ -8,7 +8,10 @@
     "register.lastName": "Prezime",
     "register.email": "Email adresa",
     "register.password": "Lozinka",
-    "register.confirmPassword": "Potvrdi lozinku"
-    
+    "register.confirmPassword": "Potvrdi lozinku",
+    "logout": "Odjavi se",
+    "welcome": "Dobrodosli",
+    "guest": "gost",
+    "user": "korisnik",
+    "admin": "administrator"
 }
-  

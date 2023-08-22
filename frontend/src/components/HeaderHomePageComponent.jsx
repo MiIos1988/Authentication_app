@@ -69,7 +69,7 @@ const HeaderHomePageComponent = () => {
                 setDisplayLogout(!displayLogout)
               }}>
                 {userStore.picture === "" ? <FaRegUserCircle className="text-5xl" /> : <img src={userStore.picture} className="rounded-full w-12 h-12" />}
-                <div className={`${!displayLogout ? "hidden" : "absolute"}  bottom--15 left-0 w-300` } onClick={handleLogout}>LOGOUT</div>
+                <div className={`${!displayLogout ? "hidden" : "absolute"}  bottom--15 left-0 w-20` } onClick={handleLogout}>{t("logout")}</div>
               </li>
             )}
 
