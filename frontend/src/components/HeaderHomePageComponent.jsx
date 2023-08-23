@@ -4,7 +4,7 @@ import en from "../assets/img/england.png";
 import sr from "../assets/img/serbia.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaRegUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ const HeaderHomePageComponent = () => {
   const { t } = useTranslation();
   const userStore = useSelector((store) => store.userSlicer.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLanguageChange = () => {
     const newLanguage = i18n.language === "sr" ? "en" : "sr";
@@ -27,7 +28,8 @@ const HeaderHomePageComponent = () => {
     e.stopPropagation();
     setDisplayLogout(false);
     dispatch(removeUser());
-    localStorage.removeItem("token-acc")
+    localStorage.removeItem("token-acc");
+    navigate("/");
   }
 
   return (

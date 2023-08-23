@@ -13,6 +13,13 @@ function App() {
   axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
   const backgroundImage = `url(${headerImg})`;
 
+  axios.interceptors.request.use((config) => {
+    if (localStorage.hasOwnProperty("token-acc")) {
+      config.headers.Authorization = localStorage.getItem("token-acc")
+    }
+    return config;
+  })
+
   useEffect(() => {
     if (localStorage.getItem("token-acc")) {
       const token = localStorage.getItem("token-acc");
