@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
+import { isAdmin } from '../service/authService';
 
 const HomePage = () => {
     const userStore = useSelector((store) => store.userSlicer.user);
@@ -20,7 +21,7 @@ const HomePage = () => {
     return (
         <div className='flex flex-col justify-center'>
             <h1 className='text-2xl text-center text-white'>{welcomeMessage}</h1>
-            {userStore && userStore.role === "admin" &&
+            {isAdmin() &&
                 <button className='text-white bg-blue-700 mt-5 text-xl p-2 transition-transform duration-100 active:scale-95 m-auto' 
                 onClick={() => navigate("/access-users")}>
                     Grant access to users
