@@ -1,4 +1,6 @@
 import App from "../App";
+import AccessUserComponent from "../components/AccessUserComponent";
+import AccessUserGuardComponent from "../guard/AccessUserGuardComponent";
 import AuthGuardComponent from "../guard/AuthGuardComponent";
 import LoginPageComponent from "../pages/LoginPageComponent";
 import RegisterPageComponent from "../pages/RegisterPageComponent";
@@ -27,6 +29,14 @@ const router = [
           <AuthGuardComponent>
             <RegisterPageComponent />
           </AuthGuardComponent>
+        ),
+      },
+      {
+        path: "access-users",
+        element: (
+          <AccessUserGuardComponent>
+            <AccessUserComponent/>
+          </AccessUserGuardComponent>
         ),
       },
     ],

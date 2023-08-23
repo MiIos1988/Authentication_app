@@ -1,12 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { isUser } from '../service/authService';
 
 const AuthGuardComponent = ({children}) => {
-    
-    const userStore = useSelector((store) => store.userSlicer.user);
   return (
-    userStore ? <Navigate to={"/"}/> : children
+    isUser() ? <Navigate to={"/"}/> : children
   )
 }
 

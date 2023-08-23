@@ -25,8 +25,9 @@ const HeaderHomePageComponent = () => {
 
   const handleLogout = (e) => {
     e.stopPropagation();
-    setDisplayLogout(false)
-    dispatch(removeUser())
+    setDisplayLogout(false);
+    dispatch(removeUser());
+    localStorage.removeItem("token-acc")
   }
 
   return (
