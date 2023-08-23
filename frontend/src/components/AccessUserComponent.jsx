@@ -1,9 +1,18 @@
 import React from 'react'
 import { useEffect } from "react";
+import { getAllUser } from '../service/userService';
 
 const AccessUserComponent = () => {
   useEffect(() => {
-    console.log("work")
+    const fetchData = async () => {
+      try{
+        const allUser = await getAllUser();
+        console.log(allUser);
+      }catch(err){
+        console.log(err)
+      }
+    } 
+    fetchData();
   },[]
   )
   
