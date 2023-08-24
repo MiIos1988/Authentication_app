@@ -19,6 +19,11 @@ userRoute.get("/get-all-user", verifyUserLogin, verifyAdminLogin, async (req, re
     res.send({forSendAllUsers})
 })
 
+userRoute.put("/change-user-active", verifyUserLogin, verifyAdminLogin, async (req, res) => {
+    console.log(req.body)
+    res.send("Ok")
+})
+
 
 
 module.exports = userRoute;
