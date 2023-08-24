@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { changeUserActive, getAllUser } from "../service/userService";
+import { changeUserActive, changeUserRole, getAllUser } from "../service/userService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,6 +30,25 @@ const AccessUserComponent = () => {
       }
     }
   }
+  const changeRole = async(event, email) => {
+    try{
+      const userRole = await changeUserRole({role: event.target.value, email})
+      if(userRole.data === 'Ok' && event.target.value === "admin"){
+        toast.success(`Access level for ${email} is Admin`)
+      }else if(userRole && event.target.value === "user"){
+        toast.success(`Access level for ${email} is User`)
+      }else if(userRole && event.target.value === "guest"){
+        toast.success(`Access level for ${email} is Guest`)
+      }
+    }catch(err){
+      if (err.response && err.response.status === 415){
+        toast.error("User not found'!")
+      }else{
+        toast.error("Error when changing role!")
+      }
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col w-[95%] sm:w-[700px] mx-auto align-center  shadow-[35px_35px_60px_15px_rgba(0,0,0,0.7)]  sm:p-10 p-5 rounded-xl">
@@ -50,8 +69,14 @@ const AccessUserComponent = () => {
                 </div>
               </div>
               <div className="flex items-center">
+                <div>
+                  <select className="mr-20 bg-[#032758] p-2" defaultValue={user.role} onChange={(event) => changeRole(event, user.email)}>
+                    <option value="guest">Guest</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
                 <input type="checkbox" className="w-6 h-6 mr-5" defaultChecked={user.isActive} onChange={(event) => changeChecked(event, user.email)}/>
-                <div></div>
               </div>
             </div>
           );
