@@ -20,8 +20,20 @@ userRoute.get("/get-all-user", verifyUserLogin, verifyAdminLogin, async (req, re
 })
 
 userRoute.put("/change-user-active", verifyUserLogin, verifyAdminLogin, async (req, res) => {
-    console.log(req.body)
+    try{
+   const findUserChangeActive = await UserModel.findOne({email: req.body.email});
+  if (findUserChangeActive) {
+    findUserChangeActive.isActive = req.body.isActive 
+    await findUserChangeActive.save()
+  }else{
+    return res.status(415).send("Error")
+  } 
+   
     res.send("Ok")
+    }
+    catch(err){
+        return res.status(416).send("Error")
+    }
 })
 
 

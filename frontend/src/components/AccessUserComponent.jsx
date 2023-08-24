@@ -23,7 +23,11 @@ const AccessUserComponent = () => {
       const userActive = await changeUserActive({isActive: event.target.checked, email})
       userActive.data === 'Ok' && event.target.checked ? toast.success(`Granted access for ${email}`) : toast.warning(`Access denied for ${email}`)
     }catch(err){
-      toast.error("Error when changing activity!")
+      if (err.response && err.response.status === 415){
+        toast.error("User not found'!")
+      }else{
+        toast.error("Error when changing activity!")
+      }
     }
   }
   return (
