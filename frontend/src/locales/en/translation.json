@@ -1,6 +1,7 @@
 {
     "login": "Login",
     "register": "Register",
+    "home": "Home",
     "username": "Username",
     "login.rememberMe": "Remember me",
     "login.forgotPassword": "Forgot Password?",

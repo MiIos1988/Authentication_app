@@ -33,7 +33,7 @@ const HeaderHomePageComponent = () => {
   }
 
   return (
-    <div className=" p-2   bg-[#032758] md:bg-inherit ">
+    <div className=" p-2 bg-[#032758] md:bg-inherit ">
       <div className="container mx-auto pt-0 md:pt-8">
         <nav className="mx-11 2xl:mx-48  md:flex justify-between items-center my-1.5 md:my-10 h-14 static md:relative ">
           <div className="flex h-full ">
@@ -56,7 +56,7 @@ const HeaderHomePageComponent = () => {
               } `}
           >
             <Link to={"/"} className="flex items-center">
-              <li className="py-2">Home</li>
+              <li className="py-2">{t("home")}</li>
             </Link>
             {!userStore || userStore.role === "guest" ? (
               <>

@@ -1,6 +1,7 @@
 {
     "login": "Prijava",
     "register": "Registracija",
+    "home": "Početna",
     "username": "Korisničko ime",
     "login.rememberMe": "Zapamti me",
     "login.forgotPassword": "Zaboravljena lozinka?",
