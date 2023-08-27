@@ -115,10 +115,7 @@ const LoginPageComponent = () => {
             <FaUnlock className="absolute top-[10px] left-2 text-2xl text-blue-900" />
           </div>
           <div className="flex justify-between">
-            <div>
-              <input type="checkbox" />
-              <span className="ml-1 text-white ">{t("login.rememberMe")}</span>
-            </div>
+            
             <span className="text-white">{t("login.forgotPassword")}</span>
           </div>
           <button
