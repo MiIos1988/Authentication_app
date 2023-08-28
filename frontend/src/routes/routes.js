@@ -3,6 +3,7 @@ import AccessUserComponent from "../components/AccessUserComponent";
 import AccessUserGuardComponent from "../guard/AccessUserGuardComponent";
 import AuthGuardComponent from "../guard/AuthGuardComponent";
 import LoginPageComponent from "../pages/LoginPageComponent";
+import NewPasswordComponent from "../pages/NewPasswordComponent";
 import RegisterPageComponent from "../pages/RegisterPageComponent";
 import ResetPasswordComponent from "../pages/ResetPasswordComponent";
 import HomePage from "./../pages/HomePage";
@@ -29,6 +30,14 @@ const router = [
         element: (
           <AuthGuardComponent>
             <RegisterPageComponent />
+          </AuthGuardComponent>
+        ),
+      },
+      {
+        path: "new-password/:token",
+        element: (
+          <AuthGuardComponent>
+            <NewPasswordComponent/>
           </AuthGuardComponent>
         ),
       },
