@@ -38,6 +38,14 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    tokenForResetPasswordAndExpiration: {
+        token: {
+          type: String,
+        },
+        expirationDate: {
+          type: Date,
+        }
+      },
     createdAt: {
         type: Date,
         default: new Date().toUTCString(),

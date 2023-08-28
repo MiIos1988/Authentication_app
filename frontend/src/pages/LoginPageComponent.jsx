@@ -116,7 +116,7 @@ const LoginPageComponent = () => {
           </div>
           <div className="flex justify-between">
             
-            <span className="text-white">{t("login.forgotPassword")}</span>
+            <span className="text-white cursor-pointer" onClick={() => navigate("/reset-password")}>{t("login.forgotPassword")}</span>
           </div>
           <button
             className="text-white bg-blue-700 mt-5 text-xl p-2 uppercase"

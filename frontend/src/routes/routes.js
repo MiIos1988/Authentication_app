@@ -4,6 +4,7 @@ import AccessUserGuardComponent from "../guard/AccessUserGuardComponent";
 import AuthGuardComponent from "../guard/AuthGuardComponent";
 import LoginPageComponent from "../pages/LoginPageComponent";
 import RegisterPageComponent from "../pages/RegisterPageComponent";
+import ResetPasswordComponent from "../pages/ResetPasswordComponent";
 import HomePage from "./../pages/HomePage";
 
 const router = [
@@ -28,6 +29,14 @@ const router = [
         element: (
           <AuthGuardComponent>
             <RegisterPageComponent />
+          </AuthGuardComponent>
+        ),
+      },
+      {
+        path: "reset-password",
+        element: (
+          <AuthGuardComponent>
+            <ResetPasswordComponent/>
           </AuthGuardComponent>
         ),
       },

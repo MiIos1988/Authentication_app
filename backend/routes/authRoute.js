@@ -9,6 +9,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const saltRounds = 10;
+const crypto = require('crypto');
 
 authRoute.post("/register", registerValidation, async (req, res) => {
   try {
@@ -118,5 +119,16 @@ authRoute.post("/login-google", async (req, res) => {
     res.status(414).send("Error");
   }
 });
+
+authRoute.post("/reset-password", async (req, res) => {
+  const token = crypto.randomBytes(32).toString('hex');
+  const expirationDate = new Date();
+  expirationDate.setMinutes(expirationDate.getMinutes() + 30);
+  const setTokenForChangePass = await UserModel.findOne({ email: req.body.email });
+  setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token
+  setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate = expirationDate
+  
+  res.json({ message: 'A password reset request has been sent to your email address.' });
+})
 
 module.exports = authRoute;
