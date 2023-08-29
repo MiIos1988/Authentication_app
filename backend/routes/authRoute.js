@@ -125,18 +125,32 @@ authRoute.post("/reset-password", async (req, res) => {
   try{
   const token = crypto.randomBytes(32).toString('hex');
   const expirationDate = new Date();
-  expirationDate.setMinutes(expirationDate.getMinutes() + 30);
+  expirationDate.setMinutes(expirationDate.getMinutes() + 15);
+
   const setTokenForChangePass = await UserModel.findOne({ email: req.body.email });
-  setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token
-  setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate = expirationDate
+  setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token;
+  setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate = expirationDate;
+
+  await setTokenForChangePass.save();
+
   const text = `Click the following link to reset your password: http://localhost:3000/new-password/${token}`
-  console.log(req.body.email)
+  
   sendMail("vojvoda1988@gmail.com", req.body.email, "Password Reset", text)
   res.json({ message: 'A password reset request has been sent to your email address.' });
   }catch(err){
     console.log(err)
     res.status(415).send("Email not exist")
   }
+})
+
+authRoute.post("/check-token", async (req, res) => {
+  console.log(req.body)
+  const searchToken = await UserModel.findOne({
+    'tokenForResetPasswordAndExpiration.token': req.body.token,
+    'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
+  })
+  console.log("-----------------------------------", searchTokens)
+  searchToken ? res.send("Ok") : res.status(416).json({message:"Token not valid!"})
 })
 
 module.exports = authRoute;
