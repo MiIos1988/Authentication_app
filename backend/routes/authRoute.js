@@ -149,7 +149,7 @@ authRoute.post("/check-token", async (req, res) => {
     'tokenForResetPasswordAndExpiration.token': req.body.token,
     'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
   })
-  console.log("-----------------------------------", searchTokens)
+  console.log("-----------------------------------", searchToken)
   searchToken ? res.send("Ok") : res.status(416).json({message:"Token not valid!"})
 })
 
