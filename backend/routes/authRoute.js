@@ -150,7 +150,7 @@ authRoute.post("/check-token", async (req, res) => {
     'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
   })
   console.log("-----------------------------------", searchToken)
-  searchToken ? res.send("Ok") : res.status(416).json({message:"Token not valid!"})
+  searchToken ? res.send("Ok") : res.status(417).json({message:"Token not valid!"})
 })
 
 module.exports = authRoute;

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { checkToken } from '../service/authService';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FaUserAlt } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
 
 const NewPasswordComponent = () => {
     const [loading, setLoading] = useState(true);
     const { token } = useParams();
+    const [msg, setMsg] = useState("Token verification in progress...")
 
     useEffect(() => {
       const tokenExist = async() => {
@@ -16,7 +18,7 @@ const NewPasswordComponent = () => {
           setLoading(false)
           
         }catch(err){
-          toast.error("Token not valid!");
+          setMsg(err.response.data.message)
         }
       }
 
@@ -31,7 +33,7 @@ const NewPasswordComponent = () => {
   return (
     <div>
       {
-        loading ? <div className='text-xl text-white m-auto text-center'>Token verification in progress...</div> :
+        loading ? <div className='text-xl text-white m-auto text-center'>{msg}</div> :
         <>
         <form
             action=""
