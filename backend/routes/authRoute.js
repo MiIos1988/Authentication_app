@@ -149,8 +149,34 @@ authRoute.post("/check-token", async (req, res) => {
     'tokenForResetPasswordAndExpiration.token': req.body.token,
     'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
   })
-  console.log("-----------------------------------", searchToken)
+  
   searchToken ? res.send("Ok") : res.status(417).json({message:"Token not valid!"})
+})
+
+authRoute.post("/new-password", async (req, res) => {
+  try{
+  const searchToken = await UserModel.findOne({
+    'tokenForResetPasswordAndExpiration.token': req.body.token,
+    'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
+  })
+  if(searchToken){
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+    
+    await UserModel.findByIdAndUpdate(
+      searchToken._id,
+      {
+        password: hashedPassword,
+        $unset: { tokenForResetPasswordAndExpiration: 1 }
+      }
+    );
+    res.status(200).json({ message: 'You have successfully changed the password!.' });
+  }else{
+    res.status(400).json({ error: 'Invalid or expired password reset token.' });
+  }
+}catch(err){
+  res.status(400).json({ error: 'An error occurred while changing the password.' });
+}
 })
 
 module.exports = authRoute;

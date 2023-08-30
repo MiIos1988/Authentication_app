@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { checkToken } from '../service/authService';
+import { useNavigate, useParams } from 'react-router-dom';
+import { checkToken, newPassword } from '../service/authService';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUserAlt } from "react-icons/fa";
@@ -9,7 +9,10 @@ import { FaUserTie } from "react-icons/fa";
 const NewPasswordComponent = () => {
     const [loading, setLoading] = useState(true);
     const { token } = useParams();
-    const [msg, setMsg] = useState("Token verification in progress...")
+    const [msg, setMsg] = useState("Token verification in progress...");
+    const [password, setPassword] = useState("")
+    const [repeatPassword, setRepeatPassword] = useState("")
+    const navigate = useNavigate()
 
     useEffect(() => {
       const tokenExist = async() => {
@@ -26,8 +29,24 @@ const NewPasswordComponent = () => {
     },[]
     )
 
-    const handleNewPassword = (e) => {
+    const handleNewPassword = async(e) => {
       e.preventDefault();
+     if(password.length < 6 ){
+     return toast.error("Password must not be less than 6 characters!")
+     }else if(password !== repeatPassword){
+      return toast.error("Password does not match!")
+     }
+     setPassword("");
+     setRepeatPassword("");
+     try{
+      await newPassword({password, token: token})
+      toast.success("You have successfully changed the password!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+     }catch(err){
+      toast.error("Error when replacing the password in the database!")
+     }
     }
 
   return (
@@ -42,21 +61,21 @@ const NewPasswordComponent = () => {
             <FaUserTie className="text-[8rem] text-white m-auto pb-5" />
             <div className="relative">
               <input
-                type="email"
+                type="password"
                 placeholder={"New password"}
                 className="mb-3 p-2 pl-14 focus:outline-none w-full text-xl"
-                // onChange={(e) => setEmail(e.target.value)}
-                // value={email}
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
               <FaUserAlt className="absolute top-[10px] left-2 text-2xl text-blue-900" />
             </div>
             <div className="relative">
               <input
-                type="email"
+                type="password"
                 placeholder={"Repeat password"}
                 className="mb-3 p-2 pl-14 focus:outline-none w-full text-xl"
-                // onChange={(e) => setEmail(e.target.value)}
-                // value={email}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+                value={repeatPassword}
               />
               <FaUserAlt className="absolute top-[10px] left-2 text-2xl text-blue-900" />
             </div>

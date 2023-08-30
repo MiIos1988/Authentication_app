@@ -24,6 +24,7 @@ const ResetPasswordComponent = () => {
       setSendEmail(true);
       toast.warning(reset.data.message);
     } catch (err) {
+      console.log(err)
       toast.error("Error when resetting the password!");
     }
   };
