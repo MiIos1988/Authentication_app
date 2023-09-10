@@ -57,10 +57,12 @@ const LoginPageComponent = () => {
       }
     }
   };
+
   const handleGoogleButton = (e) => {
     e.preventDefault();
     handleGoogleLogin();
   }
+  
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
