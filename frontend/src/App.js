@@ -30,7 +30,7 @@ function App() {
   )
 
   return (
-    <div className='w-full h-screen bg-cover ' style={{ backgroundImage }}>
+    <div className='w-full bg-fixed bg-center bg-no-repeat bg-cover min-h-screen ' style={{ backgroundImage }}>
       <HeaderHomePageComponent />
       <Outlet />
     </div>
