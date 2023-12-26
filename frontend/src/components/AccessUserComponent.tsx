@@ -3,9 +3,10 @@ import { useEffect } from "react";
 import { changeUserActive, changeUserRole, getAllUser } from "../service/userService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AxiosError } from 'axios';
 
 const AccessUserComponent = () => {
-  const [allUsers, setAllUsers] = useState([]);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,19 +19,19 @@ const AccessUserComponent = () => {
     fetchData();
   }, []);
 
-  const changeChecked = async (event, email) => {
+  const changeChecked = async (event: React.ChangeEvent<HTMLInputElement>, email: string) => {
     try {
       const userActive = await changeUserActive({ isActive: event.target.checked, email })
       userActive.data === 'Ok' && event.target.checked ? toast.success(`Granted access for ${email}`) : toast.warning(`Access denied for ${email}`)
     } catch (err) {
-      if (err.response && err.response.status === 415) {
+      if (err instanceof AxiosError && err.response && err.response.status === 415) {
         toast.error("User not found'!")
       } else {
         toast.error("Error when changing activity!")
       }
     }
   }
-  const changeRole = async (event, email) => {
+  const changeRole = async (event: React.ChangeEvent<HTMLSelectElement>, email: string) => {
     try {
       const userRole = await changeUserRole({ role: event.target.value, email })
       if (userRole.data === 'Ok' && event.target.value === "admin") {
@@ -41,12 +42,20 @@ const AccessUserComponent = () => {
         toast.success(`Access level for ${email} is Guest`)
       }
     } catch (err) {
-      if (err.response && err.response.status === 415) {
+      if (err instanceof AxiosError && err.response && err.response.status === 415) {
         toast.error("User not found'!")
       } else {
         toast.error("Error when changing role!")
       }
     }
+  }
+
+  type User = {
+    email: string,
+    firstName: string,
+    lastName: string,
+    role: string,
+    isActive: boolean
   }
 
   return (
@@ -56,7 +65,7 @@ const AccessUserComponent = () => {
           <h1> All users:</h1>
           <h1> Active</h1>
         </div>
-        {allUsers.map((user, id) => {
+        {allUsers.map((user: User, id: number) => {
           return (
             <div
               key={id}
