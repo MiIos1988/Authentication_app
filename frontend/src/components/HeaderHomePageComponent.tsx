@@ -10,12 +10,13 @@ import i18n from "../i18n";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../redux/userSlicer";
 
+
 const HeaderHomePageComponent = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isEnglish, setIsEnglish] = useState(false);
   const [displayLogout, setDisplayLogout] = useState(false);
   const { t } = useTranslation();
-  const userStore = useSelector((store) => store.userSlicer.user);
+  const userStore = useSelector((store: any) => store.userSlicer.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,7 +25,7 @@ const HeaderHomePageComponent = () => {
     i18n.changeLanguage(newLanguage);
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setDisplayLogout(false);
     dispatch(removeUser());
