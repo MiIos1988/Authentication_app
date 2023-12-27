@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/validator": "^13.11.7",
     "tailwindcss": "^3.3.2"
   }
 }

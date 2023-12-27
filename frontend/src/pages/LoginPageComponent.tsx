@@ -13,6 +13,13 @@ import { useGoogleLogin } from "@react-oauth/google";
 import jwt_decode from 'jwt-decode';
 import { saveUser } from "../redux/userSlicer";
 import { useDispatch } from "react-redux";
+import { AxiosError } from 'axios';
+
+type DataUser = {
+  data: {
+    token: string
+  }
+}
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -23,14 +30,14 @@ const LoginPageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const getDataUser = (dataUser) => {
+  const getDataUser = (dataUser: DataUser) => {
     const decodedToken = jwt_decode(dataUser.data.token);
     setTokenInLocalStorage(dataUser.data.token)
     dispatch(saveUser(decodedToken));
   }
 
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
+  const handleLoginSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
     if (!validator.isEmail(loginUser.email)) {
       return toast.error("Invalid email!");
     }
@@ -46,11 +53,11 @@ const LoginPageComponent = () => {
         password: "",
       });
     } catch (err) {
-      if (err.response && err.response.status === 420) {
+      if (err instanceof AxiosError && err.response && err.response.status === 420) {
         toast.error("Email not register!");
-      } else if (err.response && err.response.status === 421) {
+      } else if (err instanceof AxiosError && err.response && err.response.status === 421) {
         toast.error("Password is not valid!");
-      } else if (err.response && err.response.status === 422) {
+      } else if (err instanceof AxiosError && err.response && err.response.status === 422) {
         toast.error("Admin mast activate your account!");
       } else {
         toast.error("Login error!");
@@ -58,7 +65,7 @@ const LoginPageComponent = () => {
     }
   };
 
-  const handleGoogleButton = (e) => {
+  const handleGoogleButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     handleGoogleLogin();
   }
@@ -72,9 +79,9 @@ const LoginPageComponent = () => {
         getDataUser(dataUserGoogle)
         navigate("/");
       } catch (err) {
-        if (err.response && err.response.status === 413) {
+        if (err instanceof AxiosError && err.response && err.response.status === 413) {
           toast.error("Google login error!");
-        } else if (err.response && err.response.status === 422) {
+        } else if (err instanceof AxiosError && err.response && err.response.status === 422) {
           toast.error("Admin mast activate your account!");
         }
         else {

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { isAdmin } from '../service/authService';
 
 const HomePage = () => {
-    const userStore = useSelector((store) => store.userSlicer.user);
+    const userStore = useSelector((store: any) => store.userSlicer.user);
     const { t } = useTranslation();
     const navigate = useNavigate();
     let welcomeMessage;

@@ -2,7 +2,7 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
 type Props = {
-  onClick: () => void
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 const GoogleButtonComponent = ({ onClick }: Props) => (

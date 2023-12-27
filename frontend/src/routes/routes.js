@@ -6,7 +6,7 @@ import LoginPageComponent from "../pages/LoginPageComponent";
 import NewPasswordComponent from "../pages/NewPasswordComponent";
 import RegisterPageComponent from "../pages/RegisterPageComponent";
 import ResetPasswordComponent from "../pages/ResetPasswordComponent";
-import HomePage from "./../pages/HomePage";
+import HomePage from "../pages/HomePage";
 
 const router = [
   {
