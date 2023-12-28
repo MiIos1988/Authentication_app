@@ -10,9 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { userData, userDataGoogle } from "../service/authService";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleButtonComponent from "../components/GoogleButtonComponent";
+import { AxiosError } from 'axios';
 
 const RegisterPageComponent = () => {
-  const handleGoogleButton = (e) => {
+  const handleGoogleButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     handleGoogleLogin();
   };
@@ -30,7 +31,7 @@ const RegisterPageComponent = () => {
           navigate("/login");
         }, 3000);
       } catch (err) {
-        if (err.response && err.response.status === 412) {
+        if (err instanceof AxiosError && err.response && err.response.status === 412) {
           toast.error("Email exist");
         } else {
           toast.error("Google registration error!");
@@ -48,7 +49,7 @@ const RegisterPageComponent = () => {
     password: "",
     confirmPassword: "",
   });
-  const fillRegisterInput = (e) => {
+  const fillRegisterInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegisterInput({ ...registerInput, [e.target.name]: e.target.value });
   };
   const registerValidationSchema = yup.object({
@@ -67,7 +68,7 @@ const RegisterPageComponent = () => {
       .required("Confirm Password is a required field!")
       .oneOf([yup.ref("password")], "Your passwords do not match."),
   });
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     try {
       await registerValidationSchema.validate(registerInput, {
@@ -87,18 +88,26 @@ const RegisterPageComponent = () => {
         navigate("/login");
       }, 3000);
     } catch (err) {
-      if (err.response && err.response.status === 411) {
-        toast.error("Bad credentials!");
-      } else if (err.response && err.response.status === 412) {
-        toast.error("Email exist");
-      } else if (err.response && err.response.status === 413) {
-        toast.error("Registration error!");
+      if (err instanceof AxiosError) {
+        if (err.response && err.response.status === 411) {
+          toast.error("Bad credentials!");
+        } else if (err.response && err.response.status === 412) {
+          toast.error("Email exists");
+        } else if (err.response && err.response.status === 413) {
+          const innerErrors = err?.response?.data?.inner?.[0];
+          if (!innerErrors?.errors?.[0]) {
+            toast.error("Registration error!");
+          } else {
+            toast.error(innerErrors.errors[0]);
+          }
+        } else {
+          toast.error("Unknown error occurred");
+        }
       } else {
-        err.inner[0].errors[0]
-          ? toast.error(err.inner[0].errors[0])
-          : toast.error("Error");
+        toast.error("Error");
       }
     }
+    
   };
 
   return (

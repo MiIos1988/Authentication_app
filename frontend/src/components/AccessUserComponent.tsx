@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from 'axios';
 
-const AccessUserComponent = () => {
+const AccessUserComponent: React.FC = () => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
   useEffect(() => {
     const fetchData = async () => {

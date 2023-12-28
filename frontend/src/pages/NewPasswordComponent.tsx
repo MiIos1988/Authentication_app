@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUserAlt } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
+import { AxiosError } from 'axios';
 
 const NewPasswordComponent = () => {
     const [loading, setLoading] = useState(true);
@@ -17,11 +18,13 @@ const NewPasswordComponent = () => {
     useEffect(() => {
       const tokenExist = async() => {
         try{
-          await checkToken({token})
-          setLoading(false)
+          if(token){
+            await checkToken({token})
+            setLoading(false)
+          }
           
         }catch(err){
-          setMsg(err.response.data.message)
+          setMsg(err instanceof AxiosError && err.response?.data.message)
         }
       }
 
@@ -29,7 +32,7 @@ const NewPasswordComponent = () => {
     },[]
     )
 
-    const handleNewPassword = async(e) => {
+    const handleNewPassword = async(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
      if(password.length < 6 ){
      return toast.error("Password must not be less than 6 characters!")
@@ -39,8 +42,10 @@ const NewPasswordComponent = () => {
      setPassword("");
      setRepeatPassword("");
      try{
-      await newPassword({password, token: token})
-      toast.success("You have successfully changed the password!");
+      if(token){
+        await newPassword({password, token: token})
+        toast.success("You have successfully changed the password!");
+      }
       setTimeout(() => {
         navigate("/login");
       }, 3000);

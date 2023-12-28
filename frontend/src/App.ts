@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("token-acc")) {
       const token = localStorage.getItem("token-acc");
-      const decodedToken = jwt_decode(token);
+      if(token) const decodedToken = jwt_decode(token);
       dispatch(saveUser(decodedToken));
     }
   }, []

@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import validator from "validator";
-import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../service/authService";
 
 const ResetPasswordComponent = () => {
@@ -13,7 +12,7 @@ const ResetPasswordComponent = () => {
   const [email, setEmail] = useState("");
   const [sendEmail, setSendEmail] = useState(false);
 
-  const handleResetPassword = async (e) => {
+  const handleResetPassword = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (!validator.isEmail(email)) {
       return toast.error("Invalid email!");
