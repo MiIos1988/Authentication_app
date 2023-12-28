@@ -10,10 +10,10 @@ const app = express();
 
 
 mongoose.connect(process.env.MONGO_DB_URL)
-    .then((data) => {
+    .then(() => {
         console.log('Mongo DB is connected...')
     })
-    .catch((err) => {
+    .catch((err: any) => {
         console.log(err);
         console.log('Error while connecting to Mongo DB...')
     });
@@ -26,7 +26,7 @@ app.use("/api/user", userRoute);
 
 
 
-app.listen(portNumber, (err) => {
+app.listen(portNumber, (err: any) => {
     err
         ? console.log("Error on server start...")
         : console.log(`Server is running on port ${portNumber}...`)
