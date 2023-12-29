@@ -1,8 +1,17 @@
-const express = require("express");
+import express from "express";
 const verifyUserLogin = require("../validation/verifyUserLogin");
 const verifyAdminLogin = require("../validation/verifyAdminLogin");
 const UserModel = require("../models/userModel");
 const userRoute = express.Router();
+
+type User = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  picture: string;
+  role: string;
+  isActive: boolean;
+};
 
 userRoute.get(
   "/get-all-user",
@@ -10,15 +19,15 @@ userRoute.get(
   verifyAdminLogin,
   async (req, res) => {
     const allUsers = await UserModel.find({});
-    const forSendAllUsers = allUsers.map((obj) => {
-      return (newObj = {
+    const forSendAllUsers = allUsers.map((obj: User) => {
+      return {
         firstName: obj.firstName,
         lastName: obj.lastName,
         email: obj.email,
         picture: obj.picture,
         role: obj.role,
         isActive: obj.isActive,
-      });
+      };
     });
     res.send({ forSendAllUsers });
   }

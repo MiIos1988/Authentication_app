@@ -1,15 +1,15 @@
-const express = require("express");
+import express from "express";
 const authRoute = express.Router();
 const UserModel = require("../models/userModel");
 const registerValidation = require("../validation/registerValidation");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 const loginValidation = require("../validation/loginValidation");
-const validator = require('validator');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const validator = require("validator");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const saltRounds = 10;
-const crypto = require('crypto');
+const crypto = require("crypto");
 const sendMail = require("../service/mailService");
 
 authRoute.post("/register", registerValidation, async (req, res) => {
@@ -47,7 +47,7 @@ authRoute.post("/register-google", async (req, res) => {
       if (emailExist) {
         res.status(412).send("Email exist");
       } else {
-        console.log(googleData)
+        console.log(googleData);
         const dataUser = {
           firstName: googleData.data.given_name,
           lastName: googleData.data.family_name,
@@ -60,24 +60,24 @@ authRoute.post("/register-google", async (req, res) => {
       }
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(413).send("Error");
   }
 });
 
 authRoute.post("/login", loginValidation, async (req, res) => {
   let userData = await UserModel.findOne({ email: req.body.email });
-  console.log(userData)
+  console.log(userData);
   userData = {
     email: userData.email,
     firstName: userData.firstName,
     lastName: userData.lastName,
     role: userData.role,
-    picture: userData.picture
+    picture: userData.picture,
   };
   const token = jwt.sign(userData, process.env.JWT_SECRET_KEY);
-  res.send({ token })
-})
+  res.send({ token });
+});
 
 authRoute.post("/login-google", async (req, res) => {
   try {
@@ -97,7 +97,8 @@ authRoute.post("/login-google", async (req, res) => {
     let userExist = await UserModel.findOne({
       email: googleData.data.email,
     });
-    if (!userExist.email ||
+    if (
+      !userExist.email ||
       !userExist.googleId ||
       !bcrypt.compareSync(googleData.data.sub, userExist.googleId)
     ) {
@@ -111,72 +112,82 @@ authRoute.post("/login-google", async (req, res) => {
       firstName: userExist.firstName,
       lastName: userExist.lastName,
       role: userExist.role,
-      picture: userExist.picture
-    }
+      picture: userExist.picture,
+    };
     const token = jwt.sign(userExist, process.env.JWT_SECRET_KEY);
-    res.send({ token })
+    res.send({ token });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(414).send("Error");
   }
 });
 
 authRoute.post("/reset-password", async (req, res) => {
-  try{
-  const token = crypto.randomBytes(32).toString('hex');
-  const expirationDate = new Date();
-  expirationDate.setMinutes(expirationDate.getMinutes() + 15);
+  try {
+    const token = crypto.randomBytes(32).toString("hex");
+    const expirationDate = new Date();
+    expirationDate.setMinutes(expirationDate.getMinutes() + 15);
 
-  const setTokenForChangePass = await UserModel.findOne({ email: req.body.email });
-  setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token;
-  setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate = expirationDate;
+    const setTokenForChangePass = await UserModel.findOne({
+      email: req.body.email,
+    });
+    setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token;
+    setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate =
+      expirationDate;
 
-  await setTokenForChangePass.save();
+    await setTokenForChangePass.save();
 
-  const text = `Click the following link to reset your password: http://localhost:3000/new-password/${token}`
-  
-  sendMail("vojvoda1988@gmail.com", req.body.email, "Password Reset", text)
-  res.json({ message: 'A password reset request has been sent to your email address.' });
-  }catch(err){
-    console.log(err)
-    res.status(415).send("Email not exist")
+    const text = `Click the following link to reset your password: http://localhost:3000/new-password/${token}`;
+
+    sendMail("vojvoda1988@gmail.com", req.body.email, "Password Reset", text);
+    res.json({
+      message: "A password reset request has been sent to your email address.",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(415).send("Email not exist");
   }
-})
+});
 
 authRoute.post("/check-token", async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const searchToken = await UserModel.findOne({
-    'tokenForResetPasswordAndExpiration.token': req.body.token,
-    'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
-  })
-  
-  searchToken ? res.send("Ok") : res.status(417).json({message:"Token not valid!"})
-})
+    "tokenForResetPasswordAndExpiration.token": req.body.token,
+    "tokenForResetPasswordAndExpiration.expirationDate": { $gte: new Date() },
+  });
+
+  searchToken
+    ? res.send("Ok")
+    : res.status(417).json({ message: "Token not valid!" });
+});
 
 authRoute.post("/new-password", async (req, res) => {
-  try{
-  const searchToken = await UserModel.findOne({
-    'tokenForResetPasswordAndExpiration.token': req.body.token,
-    'tokenForResetPasswordAndExpiration.expirationDate': { $gte: new Date() } 
-  })
-  if(searchToken){
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hashedPassword = bcrypt.hashSync(req.body.password, salt);
-    
-    await UserModel.findByIdAndUpdate(
-      searchToken._id,
-      {
+  try {
+    const searchToken = await UserModel.findOne({
+      "tokenForResetPasswordAndExpiration.token": req.body.token,
+      "tokenForResetPasswordAndExpiration.expirationDate": { $gte: new Date() },
+    });
+    if (searchToken) {
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+
+      await UserModel.findByIdAndUpdate(searchToken._id, {
         password: hashedPassword,
-        $unset: { tokenForResetPasswordAndExpiration: 1 }
-      }
-    );
-    res.status(200).json({ message: 'You have successfully changed the password!.' });
-  }else{
-    res.status(400).json({ error: 'Invalid or expired password reset token.' });
+        $unset: { tokenForResetPasswordAndExpiration: 1 },
+      });
+      res
+        .status(200)
+        .json({ message: "You have successfully changed the password!." });
+    } else {
+      res
+        .status(400)
+        .json({ error: "Invalid or expired password reset token." });
+    }
+  } catch (err) {
+    res
+      .status(400)
+      .json({ error: "An error occurred while changing the password." });
   }
-}catch(err){
-  res.status(400).json({ error: 'An error occurred while changing the password.' });
-}
-})
+});
 
 module.exports = authRoute;

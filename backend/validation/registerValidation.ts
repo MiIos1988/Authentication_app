@@ -1,7 +1,12 @@
 const UserModel = require("../models/userModel");
-const validator = require('validator');
+const validator = require("validator");
+import { Request, Response, NextFunction } from "express";
 
-const registerValidation = async (req, res, next) => {
+const registerValidation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const data = req.body;
 
   if (
@@ -16,10 +21,9 @@ const registerValidation = async (req, res, next) => {
   ) {
     return res.status(411).send("Error");
   } else {
-    const emailExist = await UserModel.findOne({email: data.email});
-    emailExist ?  res.status(412).send("Email exist") : next()
+    const emailExist = await UserModel.findOne({ email: data.email });
+    emailExist ? res.status(412).send("Email exist") : next();
   }
-}
-
+};
 
 module.exports = registerValidation;
