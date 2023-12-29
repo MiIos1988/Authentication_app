@@ -8,11 +8,13 @@ import i18n from "./i18n";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import userSlicer  from "./redux/userSlicer"
+import userSlicer from "./redux/userSlicer";
 
 const router = createBrowserRouter(routes);
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 const store = configureStore({
   reducer: { userSlicer: userSlicer },
