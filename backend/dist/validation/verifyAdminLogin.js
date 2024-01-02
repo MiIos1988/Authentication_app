@@ -16,4 +16,4 @@ const verifyAdminLogin = (req, res, next) => {
         res.status(415).send("Auth err");
     }
 };
-module.exports = verifyAdminLogin;
+exports.default = verifyAdminLogin;

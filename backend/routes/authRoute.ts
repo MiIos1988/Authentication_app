@@ -48,7 +48,6 @@ authRoute.post("/register-google", async (req, res) => {
       if (emailExist) {
         res.status(412).send("Email exist");
       } else {
-        console.log(googleData);
         const dataUser = {
           firstName: googleData.data.given_name,
           lastName: googleData.data.family_name,
@@ -68,7 +67,6 @@ authRoute.post("/register-google", async (req, res) => {
 
 authRoute.post("/login", loginValidation, async (req, res) => {
   let userData = await UserModel.findOne({ email: req.body.email });
-  console.log(userData);
   if (userData) {
     const userDataSend = {
       email: userData.email,

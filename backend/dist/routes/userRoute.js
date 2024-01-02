@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const verifyUserLogin = require("../validation/verifyUserLogin");
-const verifyAdminLogin = require("../validation/verifyAdminLogin");
-const UserModel = require("../models/userModel");
+const verifyUserLogin_1 = __importDefault(require("../validation/verifyUserLogin"));
+const verifyAdminLogin_1 = __importDefault(require("../validation/verifyAdminLogin"));
+const userModel_1 = __importDefault(require("../models/userModel"));
 const userRoute = express_1.default.Router();
-userRoute.get("/get-all-user", verifyUserLogin, verifyAdminLogin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const allUsers = yield UserModel.find({});
+userRoute.get("/get-all-user", verifyUserLogin_1.default, verifyAdminLogin_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const allUsers = yield userModel_1.default.find({});
     const forSendAllUsers = allUsers.map((obj) => {
         return {
             firstName: obj.firstName,
@@ -31,9 +31,9 @@ userRoute.get("/get-all-user", verifyUserLogin, verifyAdminLogin, (req, res) => 
     });
     res.send({ forSendAllUsers });
 }));
-userRoute.put("/change-user-active", verifyUserLogin, verifyAdminLogin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRoute.put("/change-user-active", verifyUserLogin_1.default, verifyAdminLogin_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const findUserChangeActive = yield UserModel.findOne({
+        const findUserChangeActive = yield userModel_1.default.findOne({
             email: req.body.email,
         });
         if (findUserChangeActive) {
@@ -49,9 +49,9 @@ userRoute.put("/change-user-active", verifyUserLogin, verifyAdminLogin, (req, re
         return res.status(416).send("Error");
     }
 }));
-userRoute.put("/change-user-role", verifyUserLogin, verifyAdminLogin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+userRoute.put("/change-user-role", verifyUserLogin_1.default, verifyAdminLogin_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const findUserChangeRole = yield UserModel.findOne({
+        const findUserChangeRole = yield userModel_1.default.findOne({
             email: req.body.email,
         });
         if (findUserChangeRole) {
