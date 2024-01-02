@@ -190,4 +190,4 @@ authRoute.post("/new-password", async (req, res) => {
   }
 });
 
-module.exports = authRoute;
+export default authRoute;

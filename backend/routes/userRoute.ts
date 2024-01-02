@@ -77,4 +77,4 @@ userRoute.put(
   }
 );
 
-module.exports = userRoute;
+export default userRoute;
