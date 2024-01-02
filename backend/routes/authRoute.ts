@@ -1,16 +1,17 @@
 import express from "express";
 const authRoute = express.Router();
-const UserModel = require("../models/userModel");
-const registerValidation = require("../validation/registerValidation");
-const bcrypt = require("bcrypt");
-const axios = require("axios");
-const loginValidation = require("../validation/loginValidation");
-const validator = require("validator");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+import UserModel from "../models/userModel";
+import registerValidation from "../validation/registerValidation";
+import bcrypt from "bcrypt";
+import axios from "axios";
+import loginValidation from "../validation/loginValidation";
+import validator from "validator";
+import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+dotenv.config();
 const saltRounds = 10;
-const crypto = require("crypto");
-const sendMail = require("../service/mailService");
+import crypto from "crypto";
+import sendMail from "../service/mailService";
 
 authRoute.post("/register", registerValidation, async (req, res) => {
   try {
@@ -68,15 +69,19 @@ authRoute.post("/register-google", async (req, res) => {
 authRoute.post("/login", loginValidation, async (req, res) => {
   let userData = await UserModel.findOne({ email: req.body.email });
   console.log(userData);
-  userData = {
-    email: userData.email,
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    role: userData.role,
-    picture: userData.picture,
-  };
-  const token = jwt.sign(userData, process.env.JWT_SECRET_KEY);
-  res.send({ token });
+  if (userData) {
+    const userDataSend = {
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      role: userData.role,
+      picture: userData.picture,
+    };
+    if (process.env.JWT_SECRET_KEY) {
+      const token = jwt.sign(userDataSend, process.env.JWT_SECRET_KEY);
+      res.send({ token });
+    }
+  }
 });
 
 authRoute.post("/login-google", async (req, res) => {
@@ -97,25 +102,29 @@ authRoute.post("/login-google", async (req, res) => {
     let userExist = await UserModel.findOne({
       email: googleData.data.email,
     });
-    if (
-      !userExist.email ||
-      !userExist.googleId ||
-      !bcrypt.compareSync(googleData.data.sub, userExist.googleId)
-    ) {
-      return res.status(413).send("Error");
+    if (userExist) {
+      if (
+        !userExist.email ||
+        !userExist.googleId ||
+        !bcrypt.compareSync(googleData.data.sub, userExist.googleId)
+      ) {
+        return res.status(413).send("Error");
+      }
+      if (!userExist.isActive) {
+        return res.status(422).send("Admin mast your account!");
+      }
+      const userExistSend = {
+        email: userExist.email,
+        firstName: userExist.firstName,
+        lastName: userExist.lastName,
+        role: userExist.role,
+        picture: userExist.picture,
+      };
+      if (process.env.JWT_SECRET_KEY) {
+        const token = jwt.sign(userExistSend, process.env.JWT_SECRET_KEY);
+        res.send({ token });
+      }
     }
-    if (!userExist.isActive) {
-      return res.status(422).send("Admin mast your account!");
-    }
-    userExist = {
-      email: userExist.email,
-      firstName: userExist.firstName,
-      lastName: userExist.lastName,
-      role: userExist.role,
-      picture: userExist.picture,
-    };
-    const token = jwt.sign(userExist, process.env.JWT_SECRET_KEY);
-    res.send({ token });
   } catch (err) {
     console.log(err);
     res.status(414).send("Error");
@@ -131,11 +140,15 @@ authRoute.post("/reset-password", async (req, res) => {
     const setTokenForChangePass = await UserModel.findOne({
       email: req.body.email,
     });
-    setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token;
-    setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate =
-      expirationDate;
+    if (setTokenForChangePass) {
+      if (setTokenForChangePass.tokenForResetPasswordAndExpiration) {
+        setTokenForChangePass.tokenForResetPasswordAndExpiration.token = token;
+        setTokenForChangePass.tokenForResetPasswordAndExpiration.expirationDate =
+          expirationDate;
+      }
 
-    await setTokenForChangePass.save();
+      await setTokenForChangePass.save();
+    }
 
     const text = `Click the following link to reset your password: http://localhost:3000/new-password/${token}`;
 

@@ -1,5 +1,5 @@
-const UserModel = require("../models/userModel");
-const validator = require("validator");
+import UserModel from "../models/userModel";
+import validator from "validator";
 import { Request, Response, NextFunction } from "express";
 
 const registerValidation = async (
@@ -26,4 +26,4 @@ const registerValidation = async (
   }
 };
 
-module.exports = registerValidation;
+export default registerValidation;

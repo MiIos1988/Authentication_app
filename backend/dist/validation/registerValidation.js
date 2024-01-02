@@ -28,4 +28,4 @@ const registerValidation = (req, res, next) => __awaiter(void 0, void 0, void 0,
         emailExist ? res.status(412).send("Email exist") : next();
     }
 });
-module.exports = registerValidation;
+exports.default = registerValidation;

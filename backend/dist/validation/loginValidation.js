@@ -35,4 +35,4 @@ const loginValidation = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         next();
     }
 });
-module.exports = loginValidation;
+exports.default = loginValidation;

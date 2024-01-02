@@ -3,8 +3,8 @@ dotenv.config();
 import express from "express"
 import mongoose  from "mongoose";
 import cors from "cors";
-import  authRoute from "./routes/authRoute";
-import  userRoute from "./routes/userRoute";
+import authRoute from "./routes/authRoute";
+import userRoute from "./routes/userRoute";
 const portNumber = process.env.PORT;
 const mongoDbUrl = process.env.MONGO_DB_URL;
 const app = express();

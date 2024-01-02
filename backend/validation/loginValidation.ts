@@ -1,6 +1,6 @@
-const validator = require("validator");
-const UserModel = require("../models/userModel");
-const bcrypt = require("bcrypt");
+import validator from "validator";
+import UserModel from "../models/userModel";
+import bcrypt from "bcrypt";
 import { Request, Response, NextFunction } from "express";
 
 const loginValidation = async (
@@ -33,4 +33,4 @@ const loginValidation = async (
   }
 };
 
-module.exports = loginValidation;
+export default loginValidation;

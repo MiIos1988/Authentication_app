@@ -1,7 +1,7 @@
 import express from "express";
-const verifyUserLogin = require("../validation/verifyUserLogin");
-const verifyAdminLogin = require("../validation/verifyAdminLogin");
-const UserModel = require("../models/userModel");
+import  verifyUserLogin from "../validation/verifyUserLogin";
+import  verifyAdminLogin from "../validation/verifyAdminLogin";
+import UserModel from "../models/userModel";
 const userRoute = express.Router();
 
 type User = {

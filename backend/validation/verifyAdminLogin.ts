@@ -16,4 +16,4 @@ const verifyAdminLogin = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-module.exports = verifyAdminLogin;
+export default verifyAdminLogin;
