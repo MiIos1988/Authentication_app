@@ -4,7 +4,7 @@ import { isAdmin } from '../service/authService';
 
 const AccessUserGuardComponent = ({children}: { children: ReactNode }) => {
     return (
-        isAdmin() ? children : <Navigate to={"/"}/>
+        isAdmin() ? <>{children}</> : <Navigate to={"/"}/>
     )
 }
 
