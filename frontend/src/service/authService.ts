@@ -44,8 +44,6 @@ export const setTokenInLocalStorage = (token: string) => localStorage.setItem("t
 
 export const isUserLogin = () => localStorage.getItem("token-acc");
 
-const token = localStorage.getItem("token-acc");
+export const isUser = () =>  isUserLogin() && jwt_decode<DecodedToken>(isUserLogin())?.role === "user";
 
-export const isUser = () => token && isUserLogin() && jwt_decode<DecodedToken>(token)?.role === "user";
-
-export const isAdmin = () => token && isUserLogin() && jwt_decode<DecodedToken>(token)?.role === "admin";
+export const isAdmin = () => isUserLogin() && jwt_decode<DecodedToken>(isUserLogin())?.role === "admin";
