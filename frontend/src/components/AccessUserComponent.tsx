@@ -58,6 +58,7 @@ const AccessUserComponent: React.FC = () => {
     isActive: boolean
   }
 
+  
   return (
     <>
       <div className="flex flex-col w-[95%] md:w-[700px] mx-auto align-center  shadow-[35px_35px_60px_15px_rgba(0,0,0,0.7)]  sm:p-10 p-5 rounded-xl ">
