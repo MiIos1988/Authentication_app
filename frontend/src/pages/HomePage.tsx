@@ -17,6 +17,7 @@ const HomePage = () => {
     } else if (userStore.role === "admin") {
         welcomeMessage = `${t("welcome")} - ${t("admin")}`
     }
+    
 
     return (
         <div className='flex flex-col justify-center'>

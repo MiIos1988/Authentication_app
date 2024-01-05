@@ -42,8 +42,8 @@ export const userDataGoogleLogin = (data: Token) => axios.post("/auth/login-goog
 
 export const setTokenInLocalStorage = (token: string) => localStorage.setItem("token-acc", JSON.stringify(token))
 
-export const isUserLogin = () => localStorage.getItem("token-acc");
+const token = localStorage.getItem("token-acc");
 
-export const isUser = () =>  isUserLogin() && jwt_decode<DecodedToken>(isUserLogin())?.role === "user";
+export const isUser = () => token && jwt_decode<DecodedToken>(token)?.role === "user";
 
-export const isAdmin = () => isUserLogin() && jwt_decode<DecodedToken>(isUserLogin())?.role === "admin";
+export const isAdmin = () => token && jwt_decode<DecodedToken>(token)?.role === "admin";
