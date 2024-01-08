@@ -17,12 +17,13 @@ authRoute.post("/register", registerValidation, async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(saltRounds);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
-    const newUser = await UserModel.create(req.body);
+    await UserModel.create(req.body);
     res.send("User registered!");
   } catch (err) {
     res.status(413).send("Error");
   }
 });
+
 authRoute.post("/register-google", async (req, res) => {
   try {
     const googleData = await axios.get(
