@@ -19,7 +19,6 @@ const loginValidation = async (
     res.status(412).send("Error");
   } else {
     const userExist = await UserModel.findOne({ email: data.email });
-    console.log(userExist);
     if (!userExist) {
       return res.status(420).send("Email error");
     }
