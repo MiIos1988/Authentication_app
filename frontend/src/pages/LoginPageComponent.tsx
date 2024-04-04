@@ -52,7 +52,7 @@ const LoginPageComponent = () => {
     }
     try {
       const dataLogin = await loginData(loginUser);
-      await getDataUser(dataLogin);
+      getDataUser(dataLogin);
       navigate("/");
       setLoginUser({
         email: "",

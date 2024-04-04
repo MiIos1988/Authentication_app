@@ -15,6 +15,7 @@ const HomePage = () => {
     useEffect(() => {
         setIsAdminUser(isAdmin());
         console.log(isAdmin())
+        console.log(localStorage.getItem("token-acc"))
     },[userStore]
     )
 
