@@ -14,6 +14,7 @@ const HomePage = () => {
 
     useEffect(() => {
         setIsAdminUser(isAdmin());
+        console.log("test")
     },[userStore]
     )
 
