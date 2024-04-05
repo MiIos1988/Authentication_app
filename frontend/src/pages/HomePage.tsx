@@ -31,7 +31,7 @@ const HomePage = () => {
     return (
         <div className='flex flex-col justify-center'>
             <h1 className='text-2xl text-center text-white'>{welcomeMessage}</h1>
-            {isAdmin() &&
+            {(localStorage.getItem("token-acc")) &&
                 <button className='text-white bg-blue-700 mt-5 text-xl p-2 transition-transform duration-100 active:scale-95 m-auto' 
                 onClick={() => navigate("/access-users")}>
                     Grant access to users
