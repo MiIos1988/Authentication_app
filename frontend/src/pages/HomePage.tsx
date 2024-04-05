@@ -3,6 +3,11 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 import { isAdmin } from '../service/authService';
+import jwt_decode from 'jwt-decode';
+
+type DecodedToken = {
+    role?: string;
+  }
 
 const HomePage = () => {
     
@@ -16,6 +21,7 @@ const HomePage = () => {
         // setIsAdminUser(isAdmin());
         console.log(isAdmin())
         console.log(localStorage.getItem("token-acc"))
+        console.log((localStorage.getItem("token-acc" ) && jwt_decode<DecodedToken>(localStorage.getItem("token-acc" ))?.role === "admin") )
     },[isAdmin()]
     )
 
@@ -31,7 +37,7 @@ const HomePage = () => {
     return (
         <div className='flex flex-col justify-center'>
             <h1 className='text-2xl text-center text-white'>{welcomeMessage}</h1>
-            {(localStorage.getItem("token-acc")) &&
+            {(localStorage.getItem("token-acc" ) && jwt_decode<DecodedToken>(localStorage.getItem("token-acc" ))?.role === "admin") &&
                 <button className='text-white bg-blue-700 mt-5 text-xl p-2 transition-transform duration-100 active:scale-95 m-auto' 
                 onClick={() => navigate("/access-users")}>
                     Grant access to users
