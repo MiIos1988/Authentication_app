@@ -10,13 +10,13 @@ const HomePage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     let welcomeMessage;
-    const [isAdminUser, setIsAdminUser] = useState<boolean>(false)
+    // const [isAdminUser, setIsAdminUser] = useState<boolean>(false)
 
     useEffect(() => {
-        setIsAdminUser(isAdmin());
+        // setIsAdminUser(isAdmin());
         console.log(isAdmin())
         console.log(localStorage.getItem("token-acc"))
-    },[userStore]
+    },[isAdmin()]
     )
 
     if (!userStore || userStore?.role === "guest") {
@@ -31,7 +31,7 @@ const HomePage = () => {
     return (
         <div className='flex flex-col justify-center'>
             <h1 className='text-2xl text-center text-white'>{welcomeMessage}</h1>
-            {isAdminUser &&
+            {isAdmin() &&
                 <button className='text-white bg-blue-700 mt-5 text-xl p-2 transition-transform duration-100 active:scale-95 m-auto' 
                 onClick={() => navigate("/access-users")}>
                     Grant access to users
