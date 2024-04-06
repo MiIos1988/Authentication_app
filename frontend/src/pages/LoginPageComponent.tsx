@@ -7,23 +7,19 @@ import GoogleButtonComponent from "../components/GoogleButtonComponent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import {
-  loginData,
-  setTokenInLocalStorage,
-  userDataGoogleLogin,
-} from "../service/authService";
+import { loginData, setTokenInLocalStorage, userDataGoogleLogin } from "../service/authService";
 import validator from "validator";
 import { useGoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 import { saveUser } from "../redux/userSlicer";
 import { useDispatch } from "react-redux";
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 
 type DataUser = {
   data: {
-    token: string;
-  };
-};
+    token: string
+  }
+}
 
 const LoginPageComponent = () => {
   const { t } = useTranslation();
@@ -36,13 +32,11 @@ const LoginPageComponent = () => {
 
   const getDataUser = (dataUser: DataUser) => {
     const decodedToken = jwt_decode(dataUser.data.token);
-    setTokenInLocalStorage(dataUser.data.token);
+    setTokenInLocalStorage(dataUser.data.token)
     dispatch(saveUser(decodedToken));
-  };
+  }
 
-  const handleLoginSubmit = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleLoginSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     if (!validator.isEmail(loginUser.email)) {
       return toast.error("Invalid email!");
@@ -52,30 +46,18 @@ const LoginPageComponent = () => {
     }
     try {
       const dataLogin = await loginData(loginUser);
-      getDataUser(dataLogin);
+      getDataUser(dataLogin)
       navigate("/");
       setLoginUser({
         email: "",
         password: "",
       });
     } catch (err) {
-      if (
-        err instanceof AxiosError &&
-        err.response &&
-        err.response.status === 420
-      ) {
+      if (err instanceof AxiosError && err.response && err.response.status === 420) {
         toast.error("Email not register!");
-      } else if (
-        err instanceof AxiosError &&
-        err.response &&
-        err.response.status === 421
-      ) {
+      } else if (err instanceof AxiosError && err.response && err.response.status === 421) {
         toast.error("Password is not valid!");
-      } else if (
-        err instanceof AxiosError &&
-        err.response &&
-        err.response.status === 422
-      ) {
+      } else if (err instanceof AxiosError && err.response && err.response.status === 422) {
         toast.error("Admin mast activate your account!");
       } else {
         toast.error("Login error!");
@@ -83,35 +65,26 @@ const LoginPageComponent = () => {
     }
   };
 
-  const handleGoogleButton = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleGoogleButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     handleGoogleLogin();
-  };
-
+  }
+  
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
         const dataUserGoogle = await userDataGoogleLogin({
           token: tokenResponse.access_token,
         });
-        getDataUser(dataUserGoogle);
+        getDataUser(dataUserGoogle)
         navigate("/");
       } catch (err) {
-        if (
-          err instanceof AxiosError &&
-          err.response &&
-          err.response.status === 413
-        ) {
+        if (err instanceof AxiosError && err.response && err.response.status === 413) {
           toast.error("Google login error!");
-        } else if (
-          err instanceof AxiosError &&
-          err.response &&
-          err.response.status === 422
-        ) {
+        } else if (err instanceof AxiosError && err.response && err.response.status === 422) {
           toast.error("Admin mast activate your account!");
-        } else {
+        }
+        else {
           toast.error("Login error!");
         }
       }
@@ -151,12 +124,8 @@ const LoginPageComponent = () => {
             <FaUnlock className="absolute top-[10px] left-2 text-2xl text-blue-900" />
           </div>
           <div className="flex justify-between">
-            <span
-              className="text-white cursor-pointer"
-              onClick={() => navigate("/reset-password")}
-            >
-              {t("login.forgotPassword")}
-            </span>
+            
+            <span className="text-white cursor-pointer" onClick={() => navigate("/reset-password")}>{t("login.forgotPassword")}</span>
           </div>
           <button
             className="text-white bg-blue-700 mt-5 text-xl p-2 uppercase"
