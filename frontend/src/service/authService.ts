@@ -50,7 +50,7 @@ export const setTokenInLocalStorage = (token: string) =>
 
 export const isUser = () => {
   const token = localStorage.getItem("token-acc");
-  token && jwt_decode<DecodedToken>(token)?.role === "user";
+ return token && jwt_decode<DecodedToken>(token)?.role === "user";
 };
 
 export const isAdmin = () => {
