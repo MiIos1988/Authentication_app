@@ -59,7 +59,7 @@ const HeaderHomePageComponent = () => {
             <Link to={"/"} className="flex items-center">
               <li className="py-2">{t("home")}</li>
             </Link>
-            {!userStore || userStore.role === "guest" && (
+            {!userStore || userStore.role === "guest" ? (
               <>
                 <Link to={"/login"}>
                   <li className="py-2">{t("login")}</li>
@@ -68,6 +68,8 @@ const HeaderHomePageComponent = () => {
                   <li className="py-2">{t("register")}</li>
                 </Link>
               </>
+            ) : (
+              <></>
             )}
             <li
               className="flex py-2 cursor-pointer w-px"
@@ -81,7 +83,9 @@ const HeaderHomePageComponent = () => {
                 <span className="  ml-1">{isEnglish ? "Sr" : "En"}</span>
               </span>
             </li>
-            {userStore || userStore.role !== "guest" && (
+            {!userStore || userStore.role === "guest" ? (
+              <></>
+            ) : (
               <li
                 className=" cursor-pointer"
                 onClick={() => {
