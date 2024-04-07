@@ -83,9 +83,7 @@ const HeaderHomePageComponent = () => {
                 <span className="  ml-1">{isEnglish ? "Sr" : "En"}</span>
               </span>
             </li>
-            {!userStore || userStore.role === "guest" ? (
-              <></>
-            ) : (
+            {userStore || userStore.role !== "guest" && (
               <li
                 className=" cursor-pointer"
                 onClick={() => {
