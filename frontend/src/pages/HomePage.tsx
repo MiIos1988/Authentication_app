@@ -25,7 +25,7 @@ const HomePage = () => {
         <button
           className="text-white bg-blue-700 mt-5 text-xl p-2 transition-transform duration-100 active:scale-95 m-auto"
           onClick={() => {
-            console.log("Nav")
+            console.log("Navigate")
             navigate("/access-users")
           }}
         >
