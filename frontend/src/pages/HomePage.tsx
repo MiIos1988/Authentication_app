@@ -24,7 +24,10 @@ const HomePage = () => {
       {isAdmin() && (
         <button
           className="text-white bg-blue-700 mt-5 text-xl p-2 transition-transform duration-100 active:scale-95 m-auto"
-          onClick={() => navigate("/access-users")}
+          onClick={() => {
+            console.log("Nav")
+            navigate("/access-users")
+          }}
         >
           Grant access to users
         </button>
