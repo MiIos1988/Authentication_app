@@ -91,7 +91,7 @@ const RegisterPageComponent = () => {
         confirmPassword: "",
       });
       toast.success("Registration success!");
-      toast.info("Admin mast check your registration");
+      toast.info("Admin mast check your registration!");
       setTimeout(() => {
         navigate("/login");
       }, 3000);
@@ -100,7 +100,7 @@ const RegisterPageComponent = () => {
         if (err.response && err.response.status === 411) {
           toast.error("Bad credentials!");
         } else if (err.response && err.response.status === 412) {
-          toast.error("Email exists");
+          toast.error("Email exists!");
         } else if (err.response && err.response.status === 413) {
           const innerErrors = err?.response?.data?.inner?.[0];
           if (!innerErrors?.errors?.[0]) {
@@ -109,10 +109,10 @@ const RegisterPageComponent = () => {
             toast.error(innerErrors.errors[0]);
           }
         } else {
-          toast.error("Unknown error occurred");
+          toast.error("Unknown error occurred!");
         }
       } else {
-        toast.error("Error");
+        toast.error("Error!");
       }
     }
   };
