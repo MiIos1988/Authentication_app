@@ -96,7 +96,10 @@ const RegisterPageComponent = () => {
         navigate("/login");
       }, 3000);
     } catch (err) {
-      if (err instanceof AxiosError) {
+      if (err instanceof yup.ValidationError) {
+        console.log(err.errors)
+        toast.error(err.errors);
+      } else if (err instanceof AxiosError) {
         if (err.response && err.response.status === 411) {
           toast.error("Bad credentials!");
         } else if (err.response && err.response.status === 412) {
