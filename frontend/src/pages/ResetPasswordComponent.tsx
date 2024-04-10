@@ -53,7 +53,8 @@ const ResetPasswordComponent = () => {
             </div>
             <button
               className="text-white bg-blue-700 mt-5 text-xl p-2 uppercase"
-              onClick={(e) => handleResetPassword(e)}
+              onClick={(e) => 
+                (e)}
             >
               Reset password
             </button>
